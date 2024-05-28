@@ -1,7 +1,8 @@
 package com.teamsparta.mini5foodfeed.domain.feed.model
 
-import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponseDto
-import com.teamsparta.mini5foodfeed.domain.user.entity.User
+import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.user.model.User
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -11,23 +12,20 @@ import java.time.LocalDateTime
 data class Feed(
 
     @Column(name = "title", nullable = false)
-    var title : String,
+    var title: String,
 
     @Column(name = "description", nullable = false)
-    var description : String,
+    var description: String,
 
     @Column(name = "createdAt", nullable = false)
-    val createdAt : LocalDateTime,
-
-    @OneToOne
-    val tags : List<String>,
+    val createdAt: LocalDateTime,
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
-    val comments: MutableList<Comments> = mutableListOf(),
+    val comments: MutableList<Comment>?,
 
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    val user: User
+    val user: User,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,14 +34,13 @@ data class Feed(
 
 
 
-fun Feed.toResponse() : FeedResponseDto {
-    return FeedResponseDto(
+fun Feed.toResponse() : FeedResponse {
+    return FeedResponse(
         id = id!!,
         title = title,
         description = description,
         createdAt = createdAt,
-        tags = tags,
         comments = comments,
-        user = User
+        user = user
     )
 }
