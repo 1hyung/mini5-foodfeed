@@ -16,20 +16,19 @@ class FeedController(
     @GetMapping("/cursor")
     fun getFeedList(
         @RequestParam(required = false) tags: List<String>?,
-        @RequestParam(required = false) author: String?,
         @RequestParam cursorRequest: CursorRequest,
         @RequestParam(required = false, defaultValue = "20") size: Int,
-    ): ResponseEntity<CursorPage<FeedResponseDto>> {
+    ): ResponseEntity<CursorPage<FeedResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.getFeedList(tags, author, cursorRequest))
+            .body(feedService.getFeedList(tags, cursorRequest))
     }
 
 
     @GetMapping("/{feedId}")
     fun getFeedDetails(
         @PathVariable("feedId") feedId : Long,
-    ) : ResponseEntity<FeedResponseDto> {
+    ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(feedService.getFeedDetail(feedId))
@@ -37,8 +36,8 @@ class FeedController(
 
     @PostMapping
     fun createFeed(
-        @RequestBody request: CreateRequestDto
-    ) : ResponseEntity<FeedResponseDto> {
+        @RequestBody request: CreateRequest
+    ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(feedService.createFeed(request))
@@ -47,11 +46,11 @@ class FeedController(
     @PutMapping("/{feedId}")
     fun updateFeed(
         @PathVariable("feedId") feedId: Long,
-        @RequestBody request: UpdateRequestDto
-    ) : ResponseEntity<FeedResponseDto> {
+        @RequestBody request: UpdateRequest
+    ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.updateFeed(request))
+            .body(feedService.updateFeed(feedId, request))
     }
 
     @DeleteMapping("/{feedId}")
