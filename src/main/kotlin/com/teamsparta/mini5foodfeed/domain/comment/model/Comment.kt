@@ -1,4 +1,4 @@
-package com.teamsparta.mini5foodfeed.domain.feed.comment.model
+package com.teamsparta.mini5foodfeed.domain.comment.model
 
 import jakarta.persistence.*
 
