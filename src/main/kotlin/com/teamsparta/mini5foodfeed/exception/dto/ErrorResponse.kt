@@ -1,5 +1,5 @@
 package com.teamsparta.mini5foodfeed.exception.dto
 
-class ErrorResponse(
+data class ErrorResponse(
     val message: String?
 )
