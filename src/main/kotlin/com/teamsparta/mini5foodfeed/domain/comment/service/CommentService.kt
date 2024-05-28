@@ -1,9 +1,9 @@
-package com.teamsparta.mini5foodfeed.domain.feed.comment.service
+package com.teamsparta.mini5foodfeed.domain.comment.service
 
-import com.teamsparta.mini5foodfeed.domain.feed.comment.dto.CommentRequest
-import com.teamsparta.mini5foodfeed.domain.feed.comment.dto.CommentResponse
-import com.teamsparta.mini5foodfeed.domain.feed.comment.model.Comment
-import com.teamsparta.mini5foodfeed.domain.feed.comment.repository.CommentRepository
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentRequest
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
+import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
+import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 

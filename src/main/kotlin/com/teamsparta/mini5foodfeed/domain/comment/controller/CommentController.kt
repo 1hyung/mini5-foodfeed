@@ -1,8 +1,8 @@
-package com.teamsparta.mini5foodfeed.domain.feed.comment.controller
+package com.teamsparta.mini5foodfeed.domain.comment.controller
 
-import com.teamsparta.mini5foodfeed.domain.feed.comment.dto.CommentRequest
-import com.teamsparta.mini5foodfeed.domain.feed.comment.dto.CommentResponse
-import com.teamsparta.mini5foodfeed.domain.feed.comment.service.CommentService
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentRequest
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
+import com.teamsparta.mini5foodfeed.domain.comment.service.CommentService
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
