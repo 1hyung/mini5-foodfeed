@@ -2,6 +2,7 @@ package com.teamsparta.mini5foodfeed.domain.feed.controller
 
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
+import org.springframework.data.domain.Slice
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,10 +16,10 @@ class FeedController(
 
     @GetMapping("/cursor")
     fun getFeedList(
-        @RequestParam(required = false) tags: List<String>?,
-        @RequestParam cursorRequest: CursorRequest,
-        @RequestParam(required = false, defaultValue = "20") size: Int,
-    ): ResponseEntity<CursorPage<FeedResponse>> {
+        @RequestParam(required = false) tags: Tag?,
+        @ModelAttribute cursorRequest: CursorRequest,
+        @RequestParam(defaultValue = "20") size: Int,
+    ): ResponseEntity<Slice<FeedResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(feedService.getFeedList(tags, cursorRequest))
@@ -57,6 +58,7 @@ class FeedController(
     fun deleteFeed(
         @PathVariable("feedId") feedId: Long,
     ) : ResponseEntity<Unit> {
+        feedService.deleteFeed(feedId)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()
