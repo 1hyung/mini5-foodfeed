@@ -33,6 +33,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     compileOnly("org.projectlombok:lombok")
+    runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
