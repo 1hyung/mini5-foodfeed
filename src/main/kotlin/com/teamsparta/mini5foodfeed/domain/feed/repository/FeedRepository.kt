@@ -1,4 +1,7 @@
 package com.teamsparta.mini5foodfeed.domain.feed.repository
 
-interface FeedRepository {
+import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import org.springframework.data.jpa.repository.JpaRepository
+
+interface FeedRepository : JpaRepository<Feed, Long> {
 }
