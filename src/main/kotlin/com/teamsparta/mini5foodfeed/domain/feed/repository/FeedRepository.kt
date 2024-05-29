@@ -12,7 +12,7 @@ interface FeedRepository : JpaRepository<Feed, Long> {
 
     @Query("select f from Feed f where (:cursorId is null or f.id > :cursorId) and (:tags is null or f.tags in :tags) order by f.createdAt desc")
     fun findAllByCursorAndFilters(
-        @Param("cursorId") cursor: Long?,
+        @Param("cursorId") cursor: Int,
         @Param("tags") tags: Tag?,
         pageable: Pageable
     ) :Slice<FeedResponse>
