@@ -23,7 +23,7 @@ class FeedService(
 
     fun getFeedList(
         tags: Tag?,
-        cursor: Int
+        cursor: Int?
     ): CursorPageResponse {
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
         val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursor, tags, pageable)
