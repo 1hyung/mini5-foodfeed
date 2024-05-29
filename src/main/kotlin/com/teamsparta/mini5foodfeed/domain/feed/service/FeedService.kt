@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.service
 
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
@@ -18,7 +19,7 @@ import java.time.LocalDateTime
 @Service
 class FeedService(
     private val feedRepository: FeedRepository,
-    commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
 ) {
 
     fun getFeedList(
@@ -29,7 +30,14 @@ class FeedService(
         val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursor, tags, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
 
-        return CursorPageResponse(feedSlice, nextCursor)
+        val feedResponseWithComments = feedSlice.map{ feedResponse ->
+            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feedResponse.id!!)
+                .map { comment -> CommentResponse(comment.contents, comment.createdAt)}
+            feedResponse.copy(comments = comments)
+        }
+
+
+        return CursorPageResponse(feedResponseWithComments, nextCursor)
     }
 
     fun getFeedDetail(feedId: Long): FeedResponse {
