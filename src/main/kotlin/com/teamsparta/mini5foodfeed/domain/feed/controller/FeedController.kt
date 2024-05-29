@@ -2,7 +2,6 @@ package com.teamsparta.mini5foodfeed.domain.feed.controller
 
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
-import org.springframework.data.domain.Slice
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
