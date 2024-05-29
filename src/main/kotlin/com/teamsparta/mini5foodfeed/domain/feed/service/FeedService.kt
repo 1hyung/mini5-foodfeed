@@ -6,6 +6,9 @@ import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.User
 import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
+import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Slice
+import org.springframework.data.domain.Sort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,11 +20,14 @@ class FeedService(
 ) {
 
     fun getFeedList(
-        tags: List<String>?,
+        tags: Tag?,
         cursorRequest: CursorRequest
-    ): CursorPage<FeedResponse> {
-        TODO("태그 필터링 + 커서 기반 페이징 (작성일 내림차순)")
-        // findAllOrderByCreatedAtDesc()
+    ): Slice<FeedResponse> {
+        val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
+        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursorRequest.cursorId, tags, pageable)
+        val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
+
+        return feedSlice
     }
 
     fun getFeedDetail(feedId: Long): FeedResponse {

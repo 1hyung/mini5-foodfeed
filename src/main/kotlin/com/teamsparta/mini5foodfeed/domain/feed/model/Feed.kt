@@ -44,3 +44,14 @@ fun Feed.toResponse() : FeedResponse {
         user = user
     )
 }
+
+fun Feed.toResponseWithoutComments(feed : Feed) : FeedResponse {
+    return FeedResponse(
+        id = id!!,
+        title = title,
+        description = description,
+        createdAt = createdAt,
+        comments = null,
+        user = user
+    )
+}
