@@ -8,17 +8,16 @@ import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
+@Transactional
 class CommentService(
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
 ) {
-    @Transactional
     fun createComment(feedId: Long, request: CommentRequest): CommentResponse {
         val comment = Comment(feedId = feedId, contents = request.contents)
         commentRepository.save(comment)
         return CommentResponse(contents = request.contents)
     }
 
-    @Transactional
     fun updateComment(feedId: Long, commentId: Long, request: CommentRequest): CommentResponse {
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
@@ -27,7 +26,6 @@ class CommentService(
         return CommentResponse(contents = request.contents)
     }
 
-    @Transactional
     fun deleteComment(feedId: Long, commentId: Long) {
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
