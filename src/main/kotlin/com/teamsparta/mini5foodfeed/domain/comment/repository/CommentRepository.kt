@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CommentRepository: JpaRepository<Comment, Long> {
-    fun findByFeedId(feedId: Long): List<Comment>
+
+    fun findTop5ByFeedIdOrderByCreatedAtDesc(feedId: Long): List<Comment>
 }
