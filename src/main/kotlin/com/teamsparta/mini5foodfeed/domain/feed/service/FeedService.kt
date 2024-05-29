@@ -21,8 +21,6 @@ class FeedService(
     commentRepository: CommentRepository
 ) {
 
-    private final val commentRepository: CommentRepository = TODO("initialize me")
-
     fun getFeedList(
         tags: Tag?,
         cursor: Int
@@ -55,6 +53,7 @@ class FeedService(
 
     @Transactional
     fun updateFeed(feedId : Long, request: UpdateFeedRequest): FeedResponse {
+        // TODO : 유저 인증/인가
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         val (title, description) = request
             feed.title = title
@@ -65,16 +64,8 @@ class FeedService(
 
     @Transactional
     fun deleteFeed(feedId: Long) {
+        // TODO : 유저 인증/인가
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         feedRepository.delete(feed)
     }
-
-//    fun findAllWithComment() : Slice<FeedResponseWithComment> {
-//        val findAllWithComment = feedRepository.findAllWithComment
-//    }
-
-
-//    private fun getCommentByFeed(feedId: Long, limit: Int): List<Comment> {
-//        return commentRepository.findByFeedIdOrderByCreatedAtDesc(feedId).take(limit)
-//    }
 }
