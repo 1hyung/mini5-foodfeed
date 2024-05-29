@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.user.controller
 
+import com.teamsparta.mini5foodfeed.domain.user.dto.request.LoginRequest
 import com.teamsparta.mini5foodfeed.domain.user.dto.request.SignUpRequest
 import com.teamsparta.mini5foodfeed.domain.user.dto.request.UpdateUserProfileRequest
 import com.teamsparta.mini5foodfeed.domain.user.dto.response.UserResponse
@@ -20,7 +21,14 @@ class UserController(
             .body(userService.signUp(signUpRequest))
     }
 
-    @PutMapping("/users/{userId}/profile")
+    @PostMapping("/login")
+    fun logIn(@RequestBody loginRequest: LoginRequest):ResponseEntity<UserResponse>{
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.logIn(loginRequest))
+    }
+
+    @PutMapping("/users/{userId}")
     fun updateUserProfile(
         @PathVariable userId: Long,
         @RequestBody updateUserProfileRequest: UpdateUserProfileRequest
