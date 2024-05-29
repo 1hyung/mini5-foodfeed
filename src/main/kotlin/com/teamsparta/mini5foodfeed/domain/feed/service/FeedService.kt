@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.service
 
+import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
@@ -16,18 +17,21 @@ import java.time.LocalDateTime
 
 @Service
 class FeedService(
-    private val feedRepository: FeedRepository
+    private val feedRepository: FeedRepository,
+    commentRepository: CommentRepository
 ) {
+
+    private final val commentRepository: CommentRepository = TODO("initialize me")
 
     fun getFeedList(
         tags: Tag?,
-        cursorRequest: CursorRequest
-    ): Slice<FeedResponse> {
+        cursor: Int
+    ): CursorPageResponse {
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
-        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursorRequest.cursorId, tags, pageable)
+        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursor, tags, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
 
-        return feedSlice
+        return CursorPageResponse(feedSlice, nextCursor)
     }
 
     fun getFeedDetail(feedId: Long): FeedResponse {
@@ -36,7 +40,7 @@ class FeedService(
     }
 
     @Transactional
-    fun createFeed(request: CreateRequest): FeedResponse {
+    fun createFeed(request: CreateFeedRequest): FeedResponse {
         // val user: User = TODO : 인증,인가 과정에서 유저 찾아오고 밑에 save 에서 초기화된 이 유저를 저장
         return feedRepository.save(
             Feed(
@@ -50,7 +54,7 @@ class FeedService(
     }
 
     @Transactional
-    fun updateFeed(feedId : Long, request: UpdateRequest): FeedResponse {
+    fun updateFeed(feedId : Long, request: UpdateFeedRequest): FeedResponse {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         val (title, description) = request
             feed.title = title
@@ -64,4 +68,13 @@ class FeedService(
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         feedRepository.delete(feed)
     }
+
+//    fun findAllWithComment() : Slice<FeedResponseWithComment> {
+//        val findAllWithComment = feedRepository.findAllWithComment
+//    }
+
+
+//    private fun getCommentByFeed(feedId: Long, limit: Int): List<Comment> {
+//        return commentRepository.findByFeedIdOrderByCreatedAtDesc(feedId).take(limit)
+//    }
 }

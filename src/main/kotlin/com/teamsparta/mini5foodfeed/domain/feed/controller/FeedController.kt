@@ -17,12 +17,12 @@ class FeedController(
     @GetMapping("/cursor")
     fun getFeedList(
         @RequestParam(required = false) tags: Tag?,
-        @ModelAttribute cursorRequest: CursorRequest,
+        @RequestParam(required = false) cursor: Int = 0,
         @RequestParam(defaultValue = "20") size: Int,
-    ): ResponseEntity<Slice<FeedResponse>> {
+    ): ResponseEntity<CursorPageResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.getFeedList(tags, cursorRequest))
+            .body(feedService.getFeedList(tags, cursor))
     }
 
 
@@ -37,7 +37,7 @@ class FeedController(
 
     @PostMapping
     fun createFeed(
-        @RequestBody request: CreateRequest
+        @RequestBody request: CreateFeedRequest
     ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -47,7 +47,7 @@ class FeedController(
     @PutMapping("/{feedId}")
     fun updateFeed(
         @PathVariable("feedId") feedId: Long,
-        @RequestBody request: UpdateRequest
+        @RequestBody request: UpdateFeedRequest
     ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
