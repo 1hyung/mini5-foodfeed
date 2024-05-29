@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.model
 
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.user.model.User
@@ -17,41 +18,30 @@ data class Feed(
     @Column(name = "description", nullable = false)
     var description: String,
 
-    @Column(name = "createdAt", nullable = false)
+    @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime,
 
-    @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     val comments: MutableList<Comment>?,
 
     @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
+    @ManyToOne(fetch = FetchType.LAZY)
     val user: User,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id : Long? = null
+    val id: Long? = null
 }
 
 
-
-fun Feed.toResponse() : FeedResponse {
+fun Feed.toResponse(): FeedResponse {
+    val commentResponses = this.comments?.map { it -> CommentResponse(contents = it.contents, createdAt = it.createdAt) }
     return FeedResponse(
         id = id!!,
         title = title,
         description = description,
         createdAt = createdAt,
-        comments = comments,
-        user = user
-    )
-}
-
-fun Feed.toResponseWithoutComments(feed : Feed) : FeedResponse {
-    return FeedResponse(
-        id = id!!,
-        title = title,
-        description = description,
-        createdAt = createdAt,
-        comments = null,
+        comments = commentResponses,
         user = user
     )
 }

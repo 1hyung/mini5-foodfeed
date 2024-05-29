@@ -1,6 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.dto
 
-data class CreateRequest(
+data class CreateFeedRequest(
     val title: String,
     val description: String
 )
