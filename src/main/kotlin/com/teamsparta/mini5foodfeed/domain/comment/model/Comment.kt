@@ -24,9 +24,3 @@ data class Comment(
     val createdAt : LocalDateTime
 ) {
 }
-
-fun Comment.toResponse(): CommentResponse {
-    return CommentResponse(
-        contents = contents,
-    )
-}
