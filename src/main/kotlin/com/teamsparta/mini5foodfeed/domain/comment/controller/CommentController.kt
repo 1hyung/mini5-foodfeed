@@ -15,8 +15,7 @@ class CommentController(
     @PostMapping("/{feedId}/comments")
     fun createComment(
         @PathVariable feedId: Long,
-        @RequestBody request: CommentRequest,
-        httpServletRequest: HttpServletRequest
+        @RequestBody request: CommentRequest
     ): ResponseEntity<CommentResponse> {
         val response = commentService.createComment(feedId, request)
         return ResponseEntity.status(201).body(response)
@@ -35,8 +34,7 @@ class CommentController(
     @DeleteMapping("/{feedId}/comments/{commentId}")
     fun deleteComment(
         @PathVariable feedId: Long,
-        @PathVariable commentId: Long,
-        httpServletRequest: HttpServletRequest
+        @PathVariable commentId: Long
     ): ResponseEntity<Void> {
         commentService.deleteComment(feedId, commentId)
         return ResponseEntity.noContent().build()
