@@ -1,7 +1,9 @@
 package com.teamsparta.mini5foodfeed.common.authority
 
+import io.swagger.v3.oas.models.PathItem
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -24,9 +26,11 @@ class SecurityConfig(
                 it.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
             .authorizeHttpRequests {
-                it.requestMatchers("/member/signup", "/member/login").anonymous()
-                    .requestMatchers("/member/**").hasRole("USER")
-                    .anyRequest().permitAll()
+                it.requestMatchers("/users/signup", "/users/login").anonymous()
+                    .requestMatchers("/users/**").hasRole("USER")
+                    .requestMatchers(HttpMethod.GET).permitAll()
+                    .requestMatchers(HttpMethod.GET, "users/info").hasRole("USER")
+                    .anyRequest().hasRole("USER")
             }
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider),
