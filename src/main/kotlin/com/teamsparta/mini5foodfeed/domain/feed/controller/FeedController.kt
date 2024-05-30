@@ -1,7 +1,9 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
-import com.teamsparta.mini5foodfeed.domain.feed.dto.*
-import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CreateFeedRequest
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CursorPageResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -16,13 +18,12 @@ class FeedController(
 
     @GetMapping("/cursor")
     fun getFeedList(
-        @RequestParam(required = false) tags: Tag?,
         @RequestParam(required = false) cursor: Int = 0,
         @RequestParam(defaultValue = "20") size: Int,
     ): ResponseEntity<CursorPageResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.getFeedList(tags, cursor))
+            .body(feedService.getFeedList(cursor))
     }
 
 
@@ -38,11 +39,10 @@ class FeedController(
     @PostMapping
     fun createFeed(
         @RequestBody feedRequest: CreateFeedRequest,
-        @RequestBody tagRequest: TagRequest
     ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(feedService.createFeed(feedRequest, tagRequest))
+            .body(feedService.createFeed(feedRequest))
     }
 
     @PutMapping("/{feedId}")
