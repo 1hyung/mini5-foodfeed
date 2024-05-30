@@ -6,7 +6,7 @@ import com.teamsparta.mini5foodfeed.domain.user.dto.request.UpdateUserProfileReq
 import com.teamsparta.mini5foodfeed.domain.user.dto.response.UserResponse
 import com.teamsparta.mini5foodfeed.domain.user.exception.UserIdIllegalStateException
 import com.teamsparta.mini5foodfeed.domain.user.exception.UserIdNotFoundException
-import com.teamsparta.mini5foodfeed.domain.user.model.User
+import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 import com.teamsparta.mini5foodfeed.exception.NotFoundException
@@ -23,7 +23,7 @@ class  UserService(
         if(userRepository.existsByUserId(request.userId)){
             throw UserIdIllegalStateException(request.userId)
         }
-        val user = User(
+        val user = Users(
             userId = request.userId,
             userName = request.userName,
             password = request.password

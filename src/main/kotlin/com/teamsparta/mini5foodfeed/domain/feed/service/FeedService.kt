@@ -7,7 +7,6 @@ import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
-import com.teamsparta.mini5foodfeed.domain.user.model.User
 import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice

@@ -15,7 +15,7 @@ interface FeedRepository : JpaRepository<Feed, Long> {
     fun findAllByCursorAndFilters(
         @Param("cursorId") cursor: Int?,
         @Param("tags") tags: Tag?,
-        pageable: Pageable
-    ) :Slice<FeedResponse>
+        pageable: Pageable,
+    ): Slice<FeedResponse>
 
 }
