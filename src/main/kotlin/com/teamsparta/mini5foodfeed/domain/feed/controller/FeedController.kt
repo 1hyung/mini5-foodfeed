@@ -16,13 +16,12 @@ class FeedController(
 
     @GetMapping("/cursor")
     fun getFeedList(
-        @RequestParam(required = false) tags: Tag?,
         @RequestParam(required = false) cursor: Int = 0,
         @RequestParam(defaultValue = "20") size: Int,
     ): ResponseEntity<CursorPageResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.getFeedList(tags, cursor))
+            .body(feedService.getFeedList(cursor))
     }
 
 
