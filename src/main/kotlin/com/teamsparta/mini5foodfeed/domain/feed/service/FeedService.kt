@@ -9,6 +9,7 @@ import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
+import com.teamsparta.mini5foodfeed.domain.feed.model.updateTag
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
 import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
@@ -86,14 +87,16 @@ class FeedService(
         val (title, description) = request
             feed.title = title
             feed.description = description
+        feed.updateTag(request.tagVo)
 
-        return feedRepository.save(feed).toResponse()
+        return feed.toResponse()
     }
 
     @Transactional
     fun deleteFeed(feedId: Long) {
         // TODO : 유저 인증/인가
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
+        tagRepository.delete(feed.tag)
         feedRepository.delete(feed)
     }
 }

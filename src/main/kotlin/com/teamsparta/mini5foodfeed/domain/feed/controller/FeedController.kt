@@ -63,7 +63,3 @@ class FeedController(
             .build()
     }
 }
-//재범 = 주황
-//원형 = 파랑
-
-//승현 = 보라

@@ -3,6 +3,7 @@ package com.teamsparta.mini5foodfeed.domain.feed.model
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.TagVo
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -48,4 +49,13 @@ fun Feed.toResponse(): FeedResponse {
         tagVo = tag.toVo()
  //       user = user
     )
+}
+
+fun Feed.updateTag(tagVo: TagVo){
+    this.tag.sweet = tagVo.sweet
+    this.tag.hot = tagVo.hot
+    this.tag.spicy = tagVo.spicy
+    this.tag.cool = tagVo.cool
+    this.tag.sweetMood = tagVo.sweetMood
+    this.tag.dateCourse = tagVo.dateCourse
 }

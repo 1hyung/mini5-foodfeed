@@ -31,7 +31,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+    //swagger 의존성
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
