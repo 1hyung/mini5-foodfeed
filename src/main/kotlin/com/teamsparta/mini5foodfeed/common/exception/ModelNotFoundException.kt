@@ -1,4 +1,4 @@
-package com.teamsparta.mini5foodfeed.exception
+package com.teamsparta.mini5foodfeed.common.exception
 
 data class ModelNotFoundException(
     val model: String,
