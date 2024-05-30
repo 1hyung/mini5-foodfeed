@@ -56,7 +56,7 @@ class FeedService(
                 description = feedRequest.description,
                 createdAt = LocalDateTime.now(),
                 comments = null,
-                user = User,
+               // user = User,
                 tag = Tag(
                     tagRequest.sweet,
                     tagRequest.hot,

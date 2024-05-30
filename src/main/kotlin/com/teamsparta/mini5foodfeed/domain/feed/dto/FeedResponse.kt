@@ -11,5 +11,5 @@ data class FeedResponse(
     val description: String,
     val createdAt: LocalDateTime,
     val comments: List<CommentResponse>?,
-    val user: User
+//    val user: User
 )
