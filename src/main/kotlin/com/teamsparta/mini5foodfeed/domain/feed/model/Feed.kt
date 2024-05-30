@@ -27,6 +27,10 @@ data class Feed(
     @JoinColumn(name = "user_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     val user: User,
+
+    @OneToOne
+    @JoinColumn(name = "tag_id")
+    var tag: Tag
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
