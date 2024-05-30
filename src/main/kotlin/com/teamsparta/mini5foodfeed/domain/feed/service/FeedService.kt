@@ -7,6 +7,7 @@ import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
+import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
 import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
@@ -20,6 +21,7 @@ import java.time.LocalDateTime
 class FeedService(
     private val feedRepository: FeedRepository,
     private val commentRepository: CommentRepository,
+    private val tagRepository: TagRepository
 ) {
 
     fun getFeedList(
@@ -49,6 +51,17 @@ class FeedService(
     @Transactional
     fun createFeed(feedRequest: CreateFeedRequest): FeedResponse {
         // val user: User = TODO : 인증,인가 과정에서 유저 찾아오고 밑에 save 에서 초기화된 이 유저를 저장
+
+        val tag = Tag(
+            feedRequest.tagVo.sweet,
+            feedRequest.tagVo.hot,
+            feedRequest.tagVo.spicy,
+            feedRequest.tagVo.cool,
+            feedRequest.tagVo.sweetMood,
+            feedRequest.tagVo.dateCourse
+        )
+        tagRepository.save(tag)
+
         val feed = feedRepository.save(
             Feed(
                 title = feedRequest.title,
@@ -56,14 +69,7 @@ class FeedService(
                 createdAt = LocalDateTime.now(),
                 comments = null,
                // user = User,
-                tag = Tag(
-                    tagRequest.sweet,
-                    tagRequest.hot,
-                    tagRequest.spicy,
-                    tagRequest.cool,
-                    tagRequest.sweetMood,
-                    tagRequest.dateCourse
-                )
+                tag =tag
             )
         )
         feed.tag.feed = feed

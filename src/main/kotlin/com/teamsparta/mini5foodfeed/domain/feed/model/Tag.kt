@@ -17,5 +17,16 @@ class Tag(
     var id: Long? = null
 
     @OneToOne
-    lateinit var feed: Feed
+    var feed: Feed? = null
+}
+
+fun Tag.toVo() : TagVo {
+    return TagVo(
+        sweet = this.sweet,
+        hot = this.hot,
+        spicy = this.spicy,
+        cool = this.cool,
+        sweetMood = this.sweetMood,
+        dateCourse = this.dateCourse
+    )
 }
