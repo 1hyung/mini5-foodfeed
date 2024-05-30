@@ -90,9 +90,9 @@ sourceSets {
         kotlin.srcDirs += generated
     }
 }
-kapt {
-    generateStubs = true
-}
+//kapt {
+//    generateStubs = true
+//}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {

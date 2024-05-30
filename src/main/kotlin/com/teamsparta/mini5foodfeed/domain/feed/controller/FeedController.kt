@@ -1,10 +1,7 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
-import com.teamsparta.mini5foodfeed.domain.feed.dto.CreateFeedRequest
-import com.teamsparta.mini5foodfeed.domain.feed.dto.CursorPageResponse
-import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
-import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
+import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,10 +19,11 @@ class FeedController(
     fun getFeedList(
         @RequestParam(required = false) cursor: Int = 0,
         @RequestParam(defaultValue = "20") size: Int,
+        @RequestBody tagVo: TagVo
     ): ResponseEntity<CursorPageResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.getFeedList(cursor))
+            .body(feedService.getFeedList(cursor, tagVo))
     }
 
 
