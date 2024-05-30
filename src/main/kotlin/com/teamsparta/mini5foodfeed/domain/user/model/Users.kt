@@ -6,17 +6,17 @@ import com.teamsparta.mini5foodfeed.domain.user.dto.response.UserResponse
 import jakarta.persistence.*
 import org.apache.coyote.http11.Constants.a
 
-@Table(name = "users")
+
 @Entity
 class Users(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
-    @Column(name = "user_id")
+    @Column
     var userId: String,
-    @Column(name = "user_name")
+    @Column
     var userName: String,
-    @Column(name = "password")
+    @Column
     var password: String,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
