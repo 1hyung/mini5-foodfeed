@@ -2,7 +2,10 @@ package com.teamsparta.mini5foodfeed.domain.feed.service
 
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
-import com.teamsparta.mini5foodfeed.domain.feed.dto.*
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CreateFeedRequest
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CursorPageResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
@@ -25,11 +28,10 @@ class FeedService(
 ) {
 
     fun getFeedList(
-        tags: Tag?,
         cursor: Int?
     ): CursorPageResponse {
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
-        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursorAndFilters(cursor, tags, pageable)
+        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursor(cursor, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
         val pageRequest = PageRequest.of(0,5)
 
