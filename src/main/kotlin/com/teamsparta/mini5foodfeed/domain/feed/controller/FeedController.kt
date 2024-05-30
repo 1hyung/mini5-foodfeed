@@ -1,6 +1,7 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
+import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -36,11 +37,12 @@ class FeedController(
 
     @PostMapping
     fun createFeed(
-        @RequestBody request: CreateFeedRequest
+        @RequestBody feedRequest: CreateFeedRequest,
+        @RequestBody tagRequest: TagRequest
     ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(feedService.createFeed(request))
+            .body(feedService.createFeed(feedRequest, tagRequest))
     }
 
     @PutMapping("/{feedId}")

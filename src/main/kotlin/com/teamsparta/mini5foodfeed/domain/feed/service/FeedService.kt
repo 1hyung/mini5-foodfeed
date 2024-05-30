@@ -4,6 +4,7 @@ import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.User
@@ -47,17 +48,28 @@ class FeedService(
     }
 
     @Transactional
-    fun createFeed(request: CreateFeedRequest): FeedResponse {
+    fun createFeed(feedRequest: CreateFeedRequest, tagRequest: TagRequest): FeedResponse {
         // val user: User = TODO : 인증,인가 과정에서 유저 찾아오고 밑에 save 에서 초기화된 이 유저를 저장
-        return feedRepository.save(
+        val feed = feedRepository.save(
             Feed(
-                title = request.title,
-                description = request.description,
+                title = feedRequest.title,
+                description = feedRequest.description,
                 createdAt = LocalDateTime.now(),
                 comments = null,
-                user = User
+                user = User,
+                tag = Tag(
+                    tagRequest.sweet,
+                    tagRequest.hot,
+                    tagRequest.spicy,
+                    tagRequest.cool,
+                    tagRequest.sweetMood,
+                    tagRequest.dateCourse
+                )
             )
-        ).toResponse()
+        )
+        feed.tag.feed = feed
+
+        return feed.toResponse()
     }
 
     @Transactional
