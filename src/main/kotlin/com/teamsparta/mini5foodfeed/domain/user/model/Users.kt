@@ -11,7 +11,7 @@ import jakarta.persistence.Table
 
 @Entity
 @Table(name = "users")
-class User(
+class Users(
     @Column(name = "user_id")
     var userId: String,
 
@@ -26,7 +26,7 @@ class User(
     val id: Long? = null
 }
 
-fun User.toResponse(): UserResponse {
+fun Users.toResponse(): UserResponse {
     return UserResponse(
         id = id!!,
         userId = userId,
