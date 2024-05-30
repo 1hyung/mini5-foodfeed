@@ -14,6 +14,6 @@ interface FeedRepository : JpaRepository<Feed, Long> {
     fun findAllByCursor(
         @Param("cursorId") cursor: Int?,
         pageable: Pageable,
-    ): Slice<FeedResponse>
+    ): Slice<Feed>
 
 }
