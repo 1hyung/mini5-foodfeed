@@ -47,7 +47,7 @@ class FeedService(
     }
 
     @Transactional
-    fun createFeed(feedRequest: CreateFeedRequest, tagRequest: TagRequest): FeedResponse {
+    fun createFeed(feedRequest: CreateFeedRequest): FeedResponse {
         // val user: User = TODO : 인증,인가 과정에서 유저 찾아오고 밑에 save 에서 초기화된 이 유저를 저장
         val feed = feedRepository.save(
             Feed(

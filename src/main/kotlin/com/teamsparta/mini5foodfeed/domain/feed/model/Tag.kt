@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.model
 
+import com.teamsparta.mini5foodfeed.domain.feed.dto.TagVo
 import jakarta.persistence.*
 
 @Entity
