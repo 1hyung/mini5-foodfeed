@@ -19,6 +19,7 @@ class Users(
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     val userRole: List<UserRole>? = null
+
 }
 
 fun Users.toResponse(): UserResponse {
