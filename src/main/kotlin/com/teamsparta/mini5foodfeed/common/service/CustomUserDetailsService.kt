@@ -16,7 +16,7 @@ class CustomUserDetailsService(
     private val passwordEncoder: PasswordEncoder,
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails =
-        userRepository.findByUserId(username)
+        userRepository.findByUserName(username)
             ?.let { createUserDetails(it) }
             ?: throw UsernameNotFoundException("해당하는 유저를 찾을 수 없습니다.")
 

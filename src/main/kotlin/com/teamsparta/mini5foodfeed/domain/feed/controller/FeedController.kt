@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
+import com.teamsparta.mini5foodfeed.common.dto.CustomUser
 import com.teamsparta.mini5foodfeed.domain.feed.dto.CreateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.dto.CursorPageResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
@@ -7,6 +8,7 @@ import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 
@@ -40,9 +42,10 @@ class FeedController(
     fun createFeed(
         @RequestBody feedRequest: CreateFeedRequest,
     ) : ResponseEntity<FeedResponse> {
+        val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(feedService.createFeed(feedRequest))
+            .body(feedService.createFeed(feedRequest, userId))
     }
 
     @PutMapping("/{feedId}")
@@ -50,16 +53,18 @@ class FeedController(
         @PathVariable("feedId") feedId: Long,
         @RequestBody request: UpdateFeedRequest
     ) : ResponseEntity<FeedResponse> {
+        val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(feedService.updateFeed(feedId, request))
+            .body(feedService.updateFeed(feedId, request,userId))
     }
 
     @DeleteMapping("/{feedId}")
     fun deleteFeed(
         @PathVariable("feedId") feedId: Long,
     ) : ResponseEntity<Unit> {
-        feedService.deleteFeed(feedId)
+        val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
+        feedService.deleteFeed(feedId, userId)
         return ResponseEntity
             .status(HttpStatus.NO_CONTENT)
             .build()
