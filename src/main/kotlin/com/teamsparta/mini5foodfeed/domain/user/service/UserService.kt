@@ -29,13 +29,13 @@ class UserService(
 ) {
 
     fun signUp(request: SignUpRequest): String {
-        if (userRepository.existsByUserId(request.userId)) {
+        if (userRepository.existsByUserName(request.userId)) {
             throw UserIdIllegalStateException(request.userId)
         }
         val user = Users(
             userId = request.userId,
             userName = request.userName,
-            password = request.password
+            password = request.password,
         )
         userRepository.save(user)
         val userRole: UserRole = UserRole(null, ROLE.USER, user)

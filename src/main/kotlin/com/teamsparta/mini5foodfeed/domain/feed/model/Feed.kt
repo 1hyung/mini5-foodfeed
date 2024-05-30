@@ -4,6 +4,7 @@ import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.TagVo
+import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -24,9 +25,9 @@ data class Feed(
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     val comments: MutableList<Comment>?,
 
-//    @JoinColumn(name = "user_id", nullable = false)
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    val user: User,
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_user_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    val user: Users?,
 
     @OneToOne
     @JoinColumn(name = "tag_id")

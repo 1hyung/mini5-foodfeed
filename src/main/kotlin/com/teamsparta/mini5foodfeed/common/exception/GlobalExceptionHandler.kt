@@ -21,4 +21,11 @@ class GlobalExceptionHandler {
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(e.message))
     }
+
+    @ExceptionHandler(NotAuthenticationException::class)
+    fun handleNotAuthenticationException(e: Exception): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body(ErrorResponse(e.message))
+    }
 }

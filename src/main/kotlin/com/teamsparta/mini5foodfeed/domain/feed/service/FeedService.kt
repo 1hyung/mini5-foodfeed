@@ -13,8 +13,11 @@ import com.teamsparta.mini5foodfeed.domain.feed.model.updateTag
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
+import com.teamsparta.mini5foodfeed.common.exception.NotAuthenticationException
 
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
+import com.teamsparta.mini5foodfeed.domain.user.model.Users
+import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 
 
 import org.springframework.data.domain.PageRequest
@@ -29,7 +32,8 @@ import java.time.LocalDateTime
 class FeedService(
     private val feedRepository: FeedRepository,
     private val commentRepository: CommentRepository,
-    private val tagRepository: TagRepository
+    private val tagRepository: TagRepository,
+    private val userRepository: UserRepository,
 ) {
 
     fun getFeedList(
@@ -56,8 +60,8 @@ class FeedService(
     }
 
     @Transactional
-    fun createFeed(feedRequest: CreateFeedRequest): FeedResponse {
-        // val user: User = TODO : 인증,인가 과정에서 유저 찾아오고 밑에 save 에서 초기화된 이 유저를 저장
+    fun createFeed(feedRequest: CreateFeedRequest, userId:Long): FeedResponse {
+        val user: Users? = userRepository.findByIdOrNull(userId)
 
         val tag = Tag(
             feedRequest.tagVo.sweet,
@@ -75,7 +79,7 @@ class FeedService(
                 description = feedRequest.description,
                 createdAt = LocalDateTime.now(),
                 comments = null,
-               // user = User,
+                user = user,
                 tag =tag
             )
         )
@@ -85,9 +89,10 @@ class FeedService(
     }
 
     @Transactional
-    fun updateFeed(feedId : Long, request: UpdateFeedRequest): FeedResponse {
-        // TODO : 유저 인증/인가
+    fun updateFeed(feedId : Long, request: UpdateFeedRequest, userId: Long): FeedResponse {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
+        if (userId != feed.user!!.id)  throw NotAuthenticationException("feed")
+
         val (title, description) = request
             feed.title = title
             feed.description = description
@@ -97,9 +102,9 @@ class FeedService(
     }
 
     @Transactional
-    fun deleteFeed(feedId: Long) {
-        // TODO : 유저 인증/인가
+    fun deleteFeed(feedId: Long, userId: Long) {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
+        if (userId != feed.user!!.id)  throw NotAuthenticationException("feed")
         tagRepository.delete(feed.tag)
         feedRepository.delete(feed)
     }
