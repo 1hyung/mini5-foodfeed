@@ -2,6 +2,7 @@ package com.teamsparta.mini5foodfeed.domain.feed.repository
 
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
@@ -14,7 +15,7 @@ interface FeedRepository : JpaRepository<Feed, Long> {
     fun findAllByCursorAndFilters(
         @Param("cursorId") cursor: Int?,
         @Param("tags") tags: Tag?,
-        pageable: Pageable
-    ) :Slice<FeedResponse>
+        pageable: Pageable,
+    ): Slice<FeedResponse>
 
 }
