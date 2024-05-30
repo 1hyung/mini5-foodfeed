@@ -24,9 +24,9 @@ data class Feed(
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     val comments: MutableList<Comment>?,
 
-    @JoinColumn(name = "user_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    val user: User,
+//    @JoinColumn(name = "user_id", nullable = false)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    val user: User,
 
     @OneToOne
     @JoinColumn(name = "tag_id")
@@ -46,6 +46,6 @@ fun Feed.toResponse(): FeedResponse {
         description = description,
         createdAt = createdAt,
         comments = commentResponses,
-        user = user
+ //       user = user
     )
 }

@@ -1,25 +1,31 @@
 package com.teamsparta.mini5foodfeed.domain.user.model
 
+
 import com.teamsparta.mini5foodfeed.domain.user.dto.response.UserResponse
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.Table
 
 @Entity
+@Table(name = "users")
 class User(
-    @Column
+    @Column(name = "user_id")
     var userId: String,
-    @Column
+
+    @Column(name = "user_name")
     var userName: String,
-    @Column
+
+    @Column(name = "password")
     var password: String
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 }
+
 fun User.toResponse(): UserResponse {
     return UserResponse(
         id = id!!,
