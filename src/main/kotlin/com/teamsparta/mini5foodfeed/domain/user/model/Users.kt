@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 
 @Entity
-class User(
+class Users(
     @Column
     var userId: String,
     @Column
@@ -20,7 +20,7 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 }
-fun User.toResponse(): UserResponse {
+fun Users.toResponse(): UserResponse {
     return UserResponse(
         id = id!!,
         userId = userId,
