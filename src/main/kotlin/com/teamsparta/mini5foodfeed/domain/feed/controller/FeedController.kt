@@ -38,11 +38,10 @@ class FeedController(
     @PostMapping
     fun createFeed(
         @RequestBody feedRequest: CreateFeedRequest,
-        @RequestBody tagRequest: TagRequest
     ) : ResponseEntity<FeedResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(feedService.createFeed(feedRequest, tagRequest))
+            .body(feedService.createFeed(feedRequest))
     }
 
     @PutMapping("/{feedId}")
@@ -65,3 +64,7 @@ class FeedController(
             .build()
     }
 }
+//재범 = 주황
+//원형 = 파랑
+
+//승현 = 보라
