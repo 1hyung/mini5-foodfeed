@@ -37,6 +37,7 @@ class UserController(
     }
 
     //내 정보 보기
+
     @GetMapping("/info")
     fun searchMyInfo(): ResponseEntity<UserResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId

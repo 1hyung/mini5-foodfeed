@@ -2,6 +2,7 @@ package com.teamsparta.mini5foodfeed.domain.comment.model
 
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -21,7 +22,11 @@ data class Comment(
 
 
     @Column(nullable = false)
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime,
+
+    @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_user_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    val user: Users?
 )
 
 fun Comment.toResponse(): CommentResponse {
