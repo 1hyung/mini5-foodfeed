@@ -17,14 +17,14 @@ data class Comment(
 
     @JoinColumn(name = "feed_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    val feed : Feed,
+    val feed: Feed,
 
 
     @Column(nullable = false)
-    val createdAt : LocalDateTime
+    val createdAt: LocalDateTime
 )
 
-fun Comment.toResponse() : CommentResponse {
+fun Comment.toResponse(): CommentResponse {
     return CommentResponse(
         contents = this.contents,
         createdAt = this.createdAt,

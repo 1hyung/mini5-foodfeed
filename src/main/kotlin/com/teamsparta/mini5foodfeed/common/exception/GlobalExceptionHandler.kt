@@ -1,23 +1,23 @@
-package com.teamsparta.mini5foodfeed.exception
+package com.teamsparta.mini5foodfeed.common.exception
 
-import com.teamsparta.mini5foodfeed.exception.dto.ErrorResponse
+import com.teamsparta.mini5foodfeed.common.exception.dto.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
 @RestControllerAdvice
-class GlobalExceptionHandler{
+class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(e: Exception): ResponseEntity<ErrorResponse>{
+    fun handleNotFoundException(e: Exception): ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(message = e.message))
     }
 
     @ExceptionHandler(ModelNotFoundException::class)
-    fun handleModelNotFoundException(e: Exception): ResponseEntity<ErrorResponse>{
-        return  ResponseEntity
+    fun handleModelNotFoundException(e: Exception): ResponseEntity<ErrorResponse> {
+        return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(e.message))
     }

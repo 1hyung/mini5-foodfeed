@@ -6,7 +6,7 @@ import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.comment.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
-import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
+import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import jakarta.transaction.Transactional
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -19,7 +19,7 @@ class CommentService(
     private val feedRepository: FeedRepository,
 ) {
     fun createComment(feedId: Long, request: CommentRequest): CommentResponse {
-        val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
+        val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         return commentRepository.save(
             Comment(
                 contents = request.contents,
@@ -30,7 +30,7 @@ class CommentService(
     }
 
     fun updateComment(feedId: Long, commentId: Long, request: CommentRequest): CommentResponse {
-        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
+        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
         comment.contents = request.contents
@@ -39,7 +39,7 @@ class CommentService(
     }
 
     fun deleteComment(feedId: Long, commentId: Long) {
-        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
+        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
         commentRepository.delete(comment)

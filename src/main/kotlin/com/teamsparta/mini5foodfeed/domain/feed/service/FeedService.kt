@@ -11,8 +11,12 @@ import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.updateTag
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
+
+import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
+
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
-import com.teamsparta.mini5foodfeed.exception.ModelNotFoundException
+
+
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
