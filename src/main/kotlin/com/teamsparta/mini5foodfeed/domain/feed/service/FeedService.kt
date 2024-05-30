@@ -31,14 +31,14 @@ class FeedService(
         cursor: Int?
     ): CursorPageResponse {
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
-        val feedSlice : Slice<FeedResponse>  = feedRepository.findAllByCursor(cursor, pageable)
+        val feedSlice : Slice<Feed>  = feedRepository.findAllByCursor(cursor, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
         val pageRequest = PageRequest.of(0,5)
 
-        val feedResponseWithComments = feedSlice.map{ feedResponse ->
-            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feedResponse.id,pageRequest)
+        val feedResponseWithComments = feedSlice.content.map{ feed ->
+            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,pageRequest)
                 .map { comment -> CommentResponse(comment.contents, comment.createdAt)}
-            feedResponse.copy(comments = comments)
+            feed.toResponse().copy(comments = comments)
         }
 
 

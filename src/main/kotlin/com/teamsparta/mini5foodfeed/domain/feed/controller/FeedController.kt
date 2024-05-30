@@ -1,7 +1,9 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
-import com.teamsparta.mini5foodfeed.domain.feed.dto.*
-import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CreateFeedRequest
+import com.teamsparta.mini5foodfeed.domain.feed.dto.CursorPageResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.UpdateFeedRequest
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
