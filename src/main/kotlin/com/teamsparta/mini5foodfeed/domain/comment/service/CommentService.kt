@@ -16,12 +16,9 @@ import java.time.LocalDateTime
 @Transactional
 class CommentService(
     private val commentRepository: CommentRepository,
+    private val feedRepository: FeedRepository,
 ) {
     fun createComment(feedId: Long, request: CommentRequest): CommentResponse {
-
-//        val comment = Comment(feedId = feedId, contents = request.contents)
-//        commentRepository.save(comment)
-//        return CommentResponse(contents = request.contents)
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
         return commentRepository.save(
             Comment(
@@ -33,14 +30,16 @@ class CommentService(
     }
 
     fun updateComment(feedId: Long, commentId: Long, request: CommentRequest): CommentResponse {
+        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
         comment.contents = request.contents
         commentRepository.save(comment)
-        return CommentResponse(contents = request.contents)
+        return CommentResponse(contents = request.contents, createdAt = LocalDateTime.now())
     }
 
     fun deleteComment(feedId: Long, commentId: Long) {
+        feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException ("feed" , feedId)
         val comment = commentRepository.findById(commentId)
             .orElseThrow { RuntimeException("Comment not found") }
         commentRepository.delete(comment)

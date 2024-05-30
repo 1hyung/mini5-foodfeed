@@ -1,5 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.comment.model
 
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import jakarta.persistence.*
 import java.time.LocalDateTime
@@ -21,5 +22,11 @@ data class Comment(
 
     @Column(nullable = false)
     val createdAt : LocalDateTime
-) {
+)
+
+fun Comment.toResponse() : CommentResponse {
+    return CommentResponse(
+        contents = this.contents,
+        createdAt = this.createdAt,
+    )
 }
