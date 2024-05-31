@@ -37,7 +37,7 @@ class CommentService(
     }
 
     fun updateComment(feedId: Long, commentId: Long, request: CommentRequest, userId: Long): CommentResponse {
-        val feed = getValidatedFeed(feedId)
+        getValidatedFeed(feedId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
         if (userId != comment.user!!.id)  throw NotAuthenticationException("comment")
         comment.contents = request.contents
@@ -46,7 +46,7 @@ class CommentService(
     }
 
     fun deleteComment(feedId: Long, commentId: Long, userId: Long) {
-        val feed = getValidatedFeed(feedId)
+        getValidatedFeed(feedId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
         if (userId != comment.user!!.id)  throw NotAuthenticationException("comment")
         commentRepository.delete(comment)
