@@ -74,7 +74,7 @@ data class Feed(
 
 1. 피드 작성 : 로그인한 회원만 피드를 작성 할 수 있습니다.
 2. 피드 수정 : 피드를 작성한 본인이 로그인시에만 해당 피드를 수정 할 수 있습니다.
-3. 피드 삭제 : 피드를 작성한 본인이 로그인시에만 해당 피드를 삭제 할 수 있습니다.
+3. 피드 삭제 : 피드를 작성한 본인이 로그인시에만 해당 피드를 삭제 할 수 있습니다. 해당 피드에 달린 댓글들은 그 피드가 삭제되면 같이 삭제됩니다.
 4. 피드 목록 조회 : 최신순으로 정렬된 피드 목록을 받아옵니다. 조회시 태그 기준으로 필터링이 가능하며, 목록 반환시 해당 피드에 달린 가장 최근의 댓글 5개가 같이 반환됩니다. 게스트, 유저 모두 사용 가능합니다.
 5. 피드 개별 조회 : 해당 피드를 조회하며 그 피드의 모든 댓글도 같이 받아옵니다. 게스트, 유저 모두 사용이 가능합니다.
 
@@ -110,15 +110,37 @@ data class Comment(
 2. 댓글 수정 : 해당 댓글을 작성한 사용자만 댓글을 수정할 수 있습니다.
 3. 댓글 삭제 : 해당 댓글을 작성한 사용자만 댓글을 삭제 할 수 있습니다.
 #### 태그 부분
-1. 태그 작성 :
-2. 태그 수정 :
-3. 태그 필터링 :
+
+```kotlin
+@Entity
+class Tag(
+    var sweet: Boolean,
+    var hot: Boolean,
+    var spicy: Boolean,
+    var cool: Boolean,
+    var sweetMood: Boolean,
+    var dateCourse: Boolean
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long? = null
+
+    @OneToOne
+    var feed: Feed? = null
+}
+```
+### Tag Entity
+
+
+* Feed 작성/ 수정 시 tag 정보를 함께 입력할 수 있고, 저장된 tag 이름으로 필터링하여 조회할 수 있습니다.
+* QueryDSL 을 사용한 동적쿼리로 조회 시 필터링 기능을 구현했습니다.
+
 
 -------------------------------------------------
 
 
 ### API 명세서
-![API 명세서](https://files.slack.com/files-pri/T06B9PCLY1E-F075RJRD3UN/image.png)
+![API 명세서](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F0e06600b-6487-460e-ae7b-eb8e9c8926f8%2FUntitled.png?table=block&id=52d5e878-fbe1-4c88-bf18-10d7e6da36b4&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=131562d9-a5ac-40fb-acae-5482c29c5c70&cache=v2)
 
 --------------------------------------------------
 ### 회의 기록
