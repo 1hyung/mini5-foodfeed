@@ -22,8 +22,8 @@ data class Feed(
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime,
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    val comments: MutableList<Comment>?,
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "feed")
+    val comments: MutableList<Comment>? ,
 
     @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_user_id"))
     @ManyToOne(fetch = FetchType.LAZY)
@@ -40,15 +40,14 @@ data class Feed(
 
 
 fun Feed.toResponse(): FeedResponse {
-    val commentResponses = this.comments?.map { it -> CommentResponse(contents = it.contents, createdAt = it.createdAt) } ?: emptyList()
+    val commentResponses = this.comments?.map { it -> CommentResponse(commentId = it.id,contents = it.contents, createdAt = it.createdAt) } ?: emptyList()
     return FeedResponse(
         id = id!!,
         title = title,
         description = description,
         createdAt = createdAt,
         comments = commentResponses,
-        tagVo = tag.toVo()
- //       user = user
+        tagVo = tag.toVo(),
     )
 }
 
