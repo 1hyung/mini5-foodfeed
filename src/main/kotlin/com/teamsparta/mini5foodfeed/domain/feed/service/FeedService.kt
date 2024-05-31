@@ -54,6 +54,7 @@ class FeedService(
         return CursorPageResponse(feedResponseWithComments, nextCursor)
     }
 
+
     fun getFeedDetail(feedId: Long): FeedResponse {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
         return feed.toResponse()

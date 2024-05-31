@@ -19,7 +19,7 @@ class FeedController(
     fun getFeedList(
         @RequestParam(required = false) cursor: Int = 0,
         @RequestParam(defaultValue = "20") size: Int,
-        @RequestBody tagVo: TagVo
+        @ModelAttribute tagVo: TagVo
     ): ResponseEntity<CursorPageResponse> {
         return ResponseEntity
             .status(HttpStatus.OK)
