@@ -31,7 +31,10 @@ data class Feed(
 
     @OneToOne
     @JoinColumn(name = "tag_id")
-    var tag: Tag
+    var tag: Tag,
+
+    @Column(name = "image_url")
+    val imageUrl: String,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
