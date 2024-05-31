@@ -35,7 +35,6 @@ class FeedService(
     private val userRepository: UserRepository,
 ) {
 
-    @Transactional
     fun getFeedList(
         cursor: Int?,
         tagVo: TagVo
