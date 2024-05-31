@@ -29,7 +29,6 @@ class SecurityConfig(
                 it.requestMatchers("/users/signup", "/users/login").anonymous()
                     .requestMatchers("/users/**").hasRole("USER")
                     .requestMatchers(HttpMethod.GET).permitAll()
-                    .requestMatchers(HttpMethod.POST).permitAll()
                     .requestMatchers(HttpMethod.GET, "users/info").hasRole("USER")
                     .anyRequest().hasRole("USER")
             }
