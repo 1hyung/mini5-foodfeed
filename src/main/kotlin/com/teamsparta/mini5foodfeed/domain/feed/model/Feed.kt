@@ -40,7 +40,7 @@ data class Feed(
 
 
 fun Feed.toResponse(): FeedResponse {
-    val commentResponses = this.comments?.map { it -> CommentResponse(contents = it.contents, createdAt = it.createdAt) } ?: emptyList()
+    val commentResponses = this.comments?.map { it -> CommentResponse(commentId = it.id,contents = it.contents, createdAt = it.createdAt) } ?: emptyList()
     return FeedResponse(
         id = id!!,
         title = title,
