@@ -22,8 +22,8 @@ data class Feed(
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime,
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    val comments: MutableList<Comment>?,
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "feed")
+    val comments: MutableList<Comment>? ,
 
     @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_user_id"))
     @ManyToOne(fetch = FetchType.LAZY)

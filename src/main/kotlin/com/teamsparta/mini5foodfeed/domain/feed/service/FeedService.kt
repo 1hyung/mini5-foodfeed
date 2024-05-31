@@ -35,6 +35,7 @@ class FeedService(
     private val userRepository: UserRepository,
 ) {
 
+    @Transactional
     fun getFeedList(
         cursor: Int?,
         tagVo: TagVo
@@ -53,6 +54,7 @@ class FeedService(
 
         return CursorPageResponse(feedResponseWithComments, nextCursor)
     }
+
 
     fun getFeedDetail(feedId: Long): FeedResponse {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
