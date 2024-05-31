@@ -4,6 +4,7 @@ import com.teamsparta.mini5foodfeed.common.dto.CustomUser
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentRequest
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.service.CommentService
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
@@ -20,7 +21,7 @@ class CommentController(
     ): ResponseEntity<CommentResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         val response = commentService.createComment(feedId, request, userId)
-        return ResponseEntity.status(201).body(response)
+        return ResponseEntity.status(HttpStatus.CREATED).body(response)
     }
 
     @PutMapping("/{commentId}")
