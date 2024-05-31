@@ -108,5 +108,7 @@ class FeedService(
         if (userId != feed.user!!.id)  throw NotAuthenticationException("feed")
         tagRepository.delete(feed.tag)
         feedRepository.delete(feed)
+        val comments = commentRepository.findByFeedId(feedId)
+        commentRepository.deleteAll(comments)
     }
 }
