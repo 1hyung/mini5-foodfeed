@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface TagRepository: JpaRepository<Tag, Long> {
+interface TagRepository {
 }
