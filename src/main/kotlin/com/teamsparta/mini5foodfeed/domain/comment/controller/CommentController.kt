@@ -9,11 +9,11 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/api/v1/feeds")
+@RequestMapping("/feeds/{feedId}/comments")
 class CommentController(
     private val commentService: CommentService,
 ) {
-    @PostMapping("/{feedId}/comments")
+    @PostMapping()
     fun createComment(
         @PathVariable feedId: Long,
         @RequestBody request: CommentRequest
@@ -23,7 +23,7 @@ class CommentController(
         return ResponseEntity.status(201).body(response)
     }
 
-    @PutMapping("/{feedId}/comments/{commentId}")
+    @PutMapping("/{commentId}")
     fun updateComment(
         @PathVariable feedId: Long,
         @PathVariable commentId: Long,
@@ -34,7 +34,7 @@ class CommentController(
         return ResponseEntity.ok(response)
     }
 
-    @DeleteMapping("/{feedId}/comments/{commentId}")
+    @DeleteMapping("/{commentId}")
     fun deleteComment(
         @PathVariable feedId: Long,
         @PathVariable commentId: Long
