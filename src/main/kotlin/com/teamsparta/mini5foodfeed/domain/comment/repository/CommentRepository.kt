@@ -11,4 +11,6 @@ interface CommentRepository : JpaRepository<Comment, Long> {
 
     @Query("SELECT c FROM Comment c LEFT JOIN FETCH c.feed f WHERE f.id = :feedId ORDER BY c.createdAt DESC")
     fun findTop5ByFeedIdOrderByCreatedAtDesc(feedId: Long?, pageable: Pageable): List<Comment>
+
+    fun findByFeedId(feedId: Long) : List<Comment>
 }
