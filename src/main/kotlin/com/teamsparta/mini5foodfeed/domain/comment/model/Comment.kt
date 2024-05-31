@@ -31,7 +31,8 @@ data class Comment(
 
 fun Comment.toResponse(): CommentResponse {
     return CommentResponse(
+        commentId = this.id,
         contents = this.contents,
-        createdAt = this.createdAt,
+        createdAt = this.createdAt
     )
 }
