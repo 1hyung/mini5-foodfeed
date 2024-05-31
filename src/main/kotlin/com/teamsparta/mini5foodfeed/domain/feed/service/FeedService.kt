@@ -56,8 +56,6 @@ class FeedService(
 
     fun getFeedDetail(feedId: Long): FeedResponse {
         val feed = feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
-        val comments = commentRepository.findByFeedIdOrderByCreatedAtDesc(feedId)
-            .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt)}
         return feed.toResponse()
     }
 

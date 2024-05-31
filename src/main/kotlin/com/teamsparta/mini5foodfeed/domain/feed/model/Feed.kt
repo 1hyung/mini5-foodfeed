@@ -47,8 +47,7 @@ fun Feed.toResponse(): FeedResponse {
         description = description,
         createdAt = createdAt,
         comments = commentResponses,
-        tagVo = tag.toVo()
- //       user = user
+        tagVo = tag.toVo(),
     )
 }
 
