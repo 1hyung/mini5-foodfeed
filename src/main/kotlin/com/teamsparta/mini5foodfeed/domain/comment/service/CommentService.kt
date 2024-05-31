@@ -42,7 +42,7 @@ class CommentService(
         if (userId != comment.user!!.id)  throw NotAuthenticationException("comment")
         comment.contents = request.contents
         commentRepository.save(comment)
-        return CommentResponse(contents = request.contents, createdAt = LocalDateTime.now())
+        return CommentResponse(commentId = commentId,contents = request.contents, createdAt = LocalDateTime.now())
     }
 
     fun deleteComment(feedId: Long, commentId: Long, userId: Long) {
