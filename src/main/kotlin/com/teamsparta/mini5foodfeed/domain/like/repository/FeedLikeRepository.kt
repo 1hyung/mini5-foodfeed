@@ -3,7 +3,6 @@ package com.teamsparta.mini5foodfeed.domain.like.repository
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.like.model.FeedLike
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
-import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query

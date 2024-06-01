@@ -1,6 +1,5 @@
 package com.teamsparta.mini5foodfeed.domain.like.model
 
-import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import jakarta.persistence.*

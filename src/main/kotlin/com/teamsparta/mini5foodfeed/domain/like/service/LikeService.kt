@@ -5,7 +5,6 @@ import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
-import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponseWithoutComment
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.like.model.toggleCommentLike
@@ -50,7 +49,7 @@ class LikeService(
     @Transactional
     fun toggleLikeComment(feedId : Long, commentId : Long, userId: Long) : Unit {
         findFeed(feedId)
-        val comment = findComment(feedId, commentId)
+        val comment = findComment(commentId)
         val user = findUser(userId)
 
         val existingLike = commentLikeRepository.findByCommentAndUser(comment, user)
@@ -80,7 +79,7 @@ class LikeService(
         return feedRepository.findByIdOrNull(feedId) ?: throw ModelNotFoundException("feed", feedId)
     }
 
-    private fun findComment(feedId : Long, commentId : Long) : Comment {
+    private fun findComment(commentId : Long) : Comment {
         return commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("comment", commentId)
     }
 
