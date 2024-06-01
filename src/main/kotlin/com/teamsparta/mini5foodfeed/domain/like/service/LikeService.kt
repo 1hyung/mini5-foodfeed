@@ -66,6 +66,8 @@ class LikeService(
 
     fun getTop5LikedFeedIn24Hours(): List<FeedResponse> {
         val day = LocalDateTime.now().minusDays(1)
+        // day 부분을 파람으로 시간 형태로 받아온 후 밑의 레포쪽의 파람으로 주면
+        //  받아온 시간 이내의 탑5 좋아요 피드를 가져오는 로직으로 변경 가능
 
         val pageable = PageRequest.of(0,5)
         val top5Feeds = feedLikeRepository.findTodayFeeds(day, pageable)

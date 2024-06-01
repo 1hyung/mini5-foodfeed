@@ -3,6 +3,7 @@ package com.teamsparta.mini5foodfeed.domain.feed.controller
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
+import com.teamsparta.mini5foodfeed.domain.like.service.LikeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/feeds")
 @RestController
 class FeedController(
-    private val feedService: FeedService
+    private val feedService: FeedService,
+    private val likeService: LikeService
 ) {
 
     @GetMapping("/cursor")
@@ -36,8 +38,13 @@ class FeedController(
             .body(feedService.getFeedDetail(feedId))
     }
 
-    // 이제 24시간 이내의 좋아요 top5 가져오는 컨트롤러 추가 가능
-    // LikeService.getTop5LikedFeedIn24Hours() 을 사용하고 반환 타입은 List<FeedResponse>
+
+    @GetMapping("/popular")
+    fun getPopularFeeds() : ResponseEntity<List<FeedResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(likeService.getTop5LikedFeedIn24Hours())
+    }
 
     @PostMapping
     fun createFeed(
