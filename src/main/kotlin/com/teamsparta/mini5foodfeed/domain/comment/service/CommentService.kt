@@ -9,7 +9,6 @@ import com.teamsparta.mini5foodfeed.domain.comment.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
-import com.teamsparta.mini5foodfeed.domain.like.model.QCommentLike.commentLike
 import com.teamsparta.mini5foodfeed.domain.like.repository.CommentLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
