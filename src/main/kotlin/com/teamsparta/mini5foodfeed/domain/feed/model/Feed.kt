@@ -34,7 +34,7 @@ data class Feed(
     var tag: Tag,
 
     @Column(name = "image_url")
-    val imageUrl: String,
+    var imageUrl: String,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,6 +51,7 @@ fun Feed.toResponse(): FeedResponse {
         createdAt = createdAt,
         comments = commentResponses,
         tagVo = tag.toVo(),
+        imageUrl = imageUrl
     )
 }
 

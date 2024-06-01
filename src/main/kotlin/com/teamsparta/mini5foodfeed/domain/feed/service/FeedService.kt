@@ -81,7 +81,8 @@ class FeedService(
                 createdAt = LocalDateTime.now(),
                 comments = null,
                 user = user,
-                tag =tag
+                tag =tag,
+                imageUrl = feedRequest.imageUrl
             )
         )
         feed.tag.feed = feed
@@ -97,6 +98,7 @@ class FeedService(
         val (title, description) = request
             feed.title = title
             feed.description = description
+        feed.imageUrl = request.imageUrl
         feed.updateTag(request.tagVo)
 
         return feed.toResponse()

@@ -10,5 +10,6 @@ data class FeedResponse(
     val description: String,
     val createdAt: LocalDateTime,
     val comments: List<CommentResponse>?,
-    val tagVo: TagVo
+    val tagVo: TagVo,
+    val imageUrl : String
 )
