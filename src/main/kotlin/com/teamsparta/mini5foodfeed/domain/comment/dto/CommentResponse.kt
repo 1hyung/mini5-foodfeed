@@ -6,4 +6,5 @@ data class CommentResponse(
     val commentId: Long,
     val contents: String,
     val createdAt: LocalDateTime,
+    val likedCount: Int,
 )

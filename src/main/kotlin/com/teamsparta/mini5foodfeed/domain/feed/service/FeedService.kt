@@ -46,7 +46,7 @@ class FeedService(
 
         val feedResponseWithComments = feedSlice.content.map{ feed ->
             val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,pageRequest)
-                .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt)}
+                .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt, likedCount = feed.likedCount)}
             feed.toResponse().copy(comments = comments)
         }
 
@@ -82,7 +82,9 @@ class FeedService(
                 comments = null,
                 user = user,
                 tag =tag,
-                imageUrl = feedRequest.imageUrl
+                imageUrl = feedRequest.imageUrl,
+                feedLike = null,
+                likedCount = 0
             )
         )
         feed.tag.feed = feed

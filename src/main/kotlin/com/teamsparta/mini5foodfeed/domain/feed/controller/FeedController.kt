@@ -36,6 +36,9 @@ class FeedController(
             .body(feedService.getFeedDetail(feedId))
     }
 
+    // 이제 24시간 이내의 좋아요 top5 가져오는 컨트롤러 추가 가능
+    // LikeService.getTop5LikedFeedIn24Hours() 을 사용하고 반환 타입은 List<FeedResponse>
+
     @PostMapping
     fun createFeed(
         @RequestBody feedRequest: CreateFeedRequest,
