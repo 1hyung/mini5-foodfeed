@@ -9,6 +9,8 @@ import com.teamsparta.mini5foodfeed.domain.comment.model.toResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
+import com.teamsparta.mini5foodfeed.domain.like.model.QCommentLike.commentLike
+import com.teamsparta.mini5foodfeed.domain.like.repository.CommentLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
@@ -22,7 +24,9 @@ class CommentService(
     private val commentRepository: CommentRepository,
     private val feedRepository: FeedRepository,
     private val userRepository: UserRepository,
+    private val commentLikeRepository: CommentLikeRepository,
 ) {
+
     fun createComment(feedId: Long, request: CommentRequest, userId: Long): CommentResponse {
         val feed = getValidatedFeed(feedId)
         val user: Users? = userRepository.findByIdOrNull(userId)
@@ -47,11 +51,16 @@ class CommentService(
         return CommentResponse(commentId = commentId,contents = request.contents, createdAt = LocalDateTime.now(), likedCount = comment.likedCount)
     }
 
+    @Transactional
     fun deleteComment(feedId: Long, commentId: Long, userId: Long) {
         getValidatedFeed(feedId)
         val comment = commentRepository.findByIdOrNull(commentId) ?: throw ModelNotFoundException("Comment", commentId)
+        val commentLike = commentLikeRepository.findByComment(comment)
         if (userId != comment.user!!.id)  throw NotAuthenticationException("comment")
         commentRepository.delete(comment)
+        if (commentLike != null) {
+            commentLikeRepository.deleteAll(commentLike)
+        }
     }
 
     private fun getValidatedFeed (feedId: Long) : Feed {

@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface CommentLikeRepository: JpaRepository<CommentLike, Long> {
 
     fun findByCommentAndUser(comment: Comment, user: Users): CommentLike?
+
+    fun findByComment(comment: Comment): List<CommentLike>?
 }

@@ -14,6 +14,7 @@ import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepositoryImpl
 
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
+import com.teamsparta.mini5foodfeed.domain.like.repository.FeedLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 
@@ -33,6 +34,7 @@ class FeedService(
     private val commentRepository: CommentRepository,
     private val tagRepository: TagRepository,
     private val userRepository: UserRepository,
+    private val feedLikeRepository: FeedLikeRepository,
 ) {
 
     fun getFeedList(
@@ -114,5 +116,9 @@ class FeedService(
         feedRepository.delete(feed)
         val comments = commentRepository.findByFeedId(feedId)
         commentRepository.deleteAll(comments)
+        val feedLike = feedLikeRepository.findByFeed(feed)
+        if (feedLike != null) {
+            feedLikeRepository.deleteAll(feedLike)
+        }
     }
 }
