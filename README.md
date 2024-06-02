@@ -10,7 +10,7 @@
 
 ```kotlin
 @Entity
-class Users(
+data class Users(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
@@ -25,13 +25,17 @@ class Users(
     var feed: MutableList<Feed>? = null,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    val comment: MutableList<Comment>? = null
+    val comment: MutableList<Comment>? = null,
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    val commentLike : MutableList<Comment>?,
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+    val feedLike: MutableList<FeedLike>?,
 
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     val userRole: List<UserRole>? = null
-
 }
 ```
 ### User Entity
@@ -65,13 +69,22 @@ data class Feed(
 
     @OneToOne
     @JoinColumn(name = "tag_id")
-    var tag: Tag
+    var tag: Tag,
+
+    @Column(name = "image_url")
+    var imageUrl: String,
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "feed", orphanRemoval = true)
+    val feedLike : MutableList<FeedLike>?,
+
+    @Column(nullable = false)
+    var likedCount : Int = 0
+
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 }
-
 ```
 ### Feed Entity
 
@@ -104,7 +117,13 @@ data class Comment(
 
     @JoinColumn(foreignKey = ForeignKey(name = "fk_user_role_user_id"))
     @ManyToOne(fetch = FetchType.LAZY)
-    val user: Users?
+    val user: Users?,
+    
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", orphanRemoval = true)
+    val commentLike : MutableList<CommentLike>?,
+
+    @Column(nullable = false)
+    var likedCount : Int = 0
 )
 ```
 ### Comment Entity
@@ -138,6 +157,53 @@ class Tag(
 * Feed 작성/ 수정 시 tag 정보를 함께 입력할 수 있고, 저장된 tag 이름으로 필터링하여 조회할 수 있습니다.
 * QueryDSL 을 사용한 동적쿼리로 조회 시 필터링 기능을 구현했습니다.
 
+
+
+### 좋아요 부분
+
+``kotlin
+@Entity
+data class FeedLike(
+
+    @JoinColumn(name = "feed_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    val feed : Feed,
+
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    val user : Users,
+
+    val likedTime: LocalDateTime = LocalDateTime.now()
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id : Long? = null
+}
+```
+
+``kotlin
+@Entity
+data class CommentLike(
+
+    @JoinColumn(name = "comment_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    val comment : Comment,
+
+    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    val user : Users
+) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    val id: Long? = null
+}
+```
+
+### Like Entities
+
+1. 좋아요 누르기 : 피드와 댓글에 좋아요를 누를 수 있습니다. 이미 좋아요 된 상태라면 좋아요가 취소됩니다
+좋아요 숫자는 따로 좋아요 테이블의 숫자를 세지 않고 해당 feed,comment 쪽의 필드에 따로 숫자를 저장하는 필드와 로직을 줘서 쿼리문을 최소화했습니다
+2. 좋아요 랭킹 : 24시간 이내에 좋아요를 가장 많이 받은 피드 5개를 볼 수 있습니다
 
 -------------------------------------------------
 
