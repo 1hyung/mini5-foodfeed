@@ -1,24 +1,19 @@
 package com.teamsparta.mini5foodfeed.domain.feed.service
 
-import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
-import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
-import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
-import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
-import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
-import com.teamsparta.mini5foodfeed.domain.feed.model.updateTag
-import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.common.exception.NotAuthenticationException
+import com.teamsparta.mini5foodfeed.common.status.OrderType
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
+import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
+import com.teamsparta.mini5foodfeed.domain.feed.model.*
+import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepositoryImpl
-
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
 import com.teamsparta.mini5foodfeed.domain.like.repository.FeedLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
-
-
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
@@ -121,4 +116,12 @@ class FeedService(
             feedLikeRepository.deleteAll(feedLike)
         }
     }
+
+    fun getMyFeeds(userId: Long, order : OrderType, page : Int): List<FeedWithoutCommentResponse> {
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
+        val pageRequest = PageRequest.of(page,10)
+        val feeds = feedRepository.findByUserOrderByParam(user, order, pageRequest)
+        return feeds.map{it.toResponseWithoutComment()}
+    }
+
 }

@@ -3,6 +3,7 @@ package com.teamsparta.mini5foodfeed.domain.feed.model
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedWithoutCommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.TagVo
 import com.teamsparta.mini5foodfeed.domain.like.model.FeedLike
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
@@ -67,13 +68,12 @@ fun Feed.toResponse(): FeedResponse {
     )
 }
 
-fun Feed.toResponseWithoutComment(): FeedResponse {
-    return FeedResponse(
+fun Feed.toResponseWithoutComment(): FeedWithoutCommentResponse {
+    return FeedWithoutCommentResponse(
         id = id!!,
         title = title,
         description = description,
         createdAt = createdAt,
-        comments = emptyList(),
         tagVo = tag.toVo(),
         imageUrl = imageUrl,
         likedCount = likedCount

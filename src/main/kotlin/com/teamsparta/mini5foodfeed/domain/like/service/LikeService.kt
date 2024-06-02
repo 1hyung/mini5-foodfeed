@@ -4,6 +4,7 @@ import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
+import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedWithoutCommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponseWithoutComment
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
@@ -64,7 +65,7 @@ class LikeService(
         }
     }
 
-    fun getTop5LikedFeedIn24Hours(): List<FeedResponse> {
+    fun getTop5LikedFeedIn24Hours(): List<FeedWithoutCommentResponse> {
         val day = LocalDateTime.now().minusDays(1)
         // day 부분을 파람으로 시간 형태로 받아온 후 밑의 레포쪽의 파람으로 주면
         //  받아온 시간 이내의 탑5 좋아요 피드를 가져오는 로직으로 변경 가능

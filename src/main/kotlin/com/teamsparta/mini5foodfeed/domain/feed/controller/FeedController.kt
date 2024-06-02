@@ -1,11 +1,16 @@
 package com.teamsparta.mini5foodfeed.domain.feed.controller
 
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
+import com.teamsparta.mini5foodfeed.common.status.OrderType
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
 import com.teamsparta.mini5foodfeed.domain.like.service.LikeService
+import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
@@ -40,7 +45,7 @@ class FeedController(
 
 
     @GetMapping("/popular")
-    fun getPopularFeeds() : ResponseEntity<List<FeedResponse>> {
+    fun getPopularFeeds() : ResponseEntity<List<FeedWithoutCommentResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(likeService.getTop5LikedFeedIn24Hours())
@@ -77,4 +82,6 @@ class FeedController(
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
+
+
 }

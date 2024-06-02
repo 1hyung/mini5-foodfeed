@@ -2,6 +2,7 @@ package com.teamsparta.mini5foodfeed.domain.comment.service
 
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.common.exception.NotAuthenticationException
+import com.teamsparta.mini5foodfeed.common.status.OrderType
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentRequest
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
@@ -13,6 +14,8 @@ import com.teamsparta.mini5foodfeed.domain.like.repository.CommentLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
@@ -60,6 +63,13 @@ class CommentService(
         if (commentLike != null) {
             commentLikeRepository.deleteAll(commentLike)
         }
+    }
+
+    fun getMyComments(userId: Long, order: OrderType, page: Int): List<CommentResponse> {
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
+        val pageRequest = PageRequest.of(page, 10)
+        val comments = commentRepository.findByUserOrderByParam(user, order, pageRequest)
+        return comments.map{it.toResponse()}
     }
 
     private fun getValidatedFeed (feedId: Long) : Feed {
