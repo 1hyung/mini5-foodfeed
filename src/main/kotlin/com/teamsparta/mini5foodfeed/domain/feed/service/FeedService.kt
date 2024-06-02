@@ -81,7 +81,8 @@ class FeedService(
                 createdAt = LocalDateTime.now(),
                 comments = null,
                 user = user,
-                tag =tag
+                tag =tag,
+                imageUrl = feedRequest.imageUrl
             )
         )
         feed.tag.feed = feed
