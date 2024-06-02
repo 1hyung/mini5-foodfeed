@@ -15,7 +15,7 @@ interface FeedLikeRepository: JpaRepository<FeedLike, Long> {
 
     fun findByFeedAndUser(feed: Feed, user: Users): FeedLike?
 
-    @Query("select f.feed from FeedLike f where f.likedTime >= :day group by f.feed order by count(f.feed) desc limit 5")
+    @Query("select f.feed from FeedLike f where f.likedTime >= :day group by f.feed order by count(f.feed) desc")
     fun findTodayFeeds(day:LocalDateTime, pageable : Pageable) : Page<Feed>
 
     fun findByFeed(feed: Feed) : List<FeedLike>?
