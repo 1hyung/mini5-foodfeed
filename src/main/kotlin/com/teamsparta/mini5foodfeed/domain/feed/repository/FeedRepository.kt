@@ -3,7 +3,6 @@ package com.teamsparta.mini5foodfeed.domain.feed.repository
 import com.teamsparta.mini5foodfeed.common.status.OrderType
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Slice
 import org.springframework.data.jpa.repository.JpaRepository
