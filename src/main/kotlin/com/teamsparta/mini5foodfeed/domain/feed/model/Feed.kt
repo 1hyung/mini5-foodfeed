@@ -37,7 +37,7 @@ data class Feed(
     var tag: Tag,
 
     @Column(name = "image_url")
-    var imageUrl: String,
+    var imageUrl: String?,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "feed", orphanRemoval = true)
     val feedLike : MutableList<FeedLike>?,

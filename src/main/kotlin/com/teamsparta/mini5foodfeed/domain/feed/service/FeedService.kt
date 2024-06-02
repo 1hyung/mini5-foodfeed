@@ -5,6 +5,7 @@ import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.common.exception.NotAuthenticationException
 import com.teamsparta.mini5foodfeed.common.status.OrderType
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
+import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.model.*
@@ -39,15 +40,13 @@ class FeedService(
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
         val feedSlice : Slice<Feed>  = feedRepositoryImpl.findAllByTagWithCursor(tagVo, cursor, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
-        val pageRequest = PageRequest.of(0,5)
+        val limit : Int = 3
 
         val feedResponseWithComments = feedSlice.content.map{ feed ->
-            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,pageRequest)
+            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,limit)
                 .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt, likedCount = feed.likedCount)}
             feed.toResponse().copy(comments = comments)
         }
-
-
         return CursorPageResponse(feedResponseWithComments, nextCursor)
     }
 

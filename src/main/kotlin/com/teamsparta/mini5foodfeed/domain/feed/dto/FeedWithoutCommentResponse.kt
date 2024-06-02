@@ -8,6 +8,6 @@ data class FeedWithoutCommentResponse(
     val description: String,
     val createdAt: LocalDateTime,
     val tagVo: TagVo,
-    val imageUrl : String,
+    val imageUrl : String?,
     val likedCount : Int
 )

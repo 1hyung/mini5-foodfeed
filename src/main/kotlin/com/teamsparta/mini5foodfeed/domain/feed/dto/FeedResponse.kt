@@ -11,6 +11,6 @@ data class FeedResponse(
     val createdAt: LocalDateTime,
     val comments: List<CommentResponse>?,
     val tagVo: TagVo,
-    val imageUrl : String,
+    val imageUrl : String?,
     val likedCount : Int
 )
