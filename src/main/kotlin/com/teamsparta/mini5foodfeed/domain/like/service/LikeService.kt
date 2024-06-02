@@ -42,7 +42,8 @@ class LikeService(
             feed.likedCount --
             println("disliked")
         } else {
-            toggleFeedLike(feed, user)
+            val newLike = toggleFeedLike(feed, user)
+            feedLikeRepository.save(newLike)
             feed.likedCount ++
             println("liked")
         }
@@ -62,7 +63,8 @@ class LikeService(
             comment.likedCount --
             println("disliked")
         } else {
-            toggleCommentLike(comment, user)
+            val newLike = toggleCommentLike(comment, user)
+            commentLikeRepository.save(newLike)
             comment.likedCount ++
             println("liked")
         }
@@ -74,8 +76,8 @@ class LikeService(
         // day 부분을 파람으로 시간 형태로 받아온 후 밑의 레포쪽의 파람으로 주면
         //  받아온 시간 이내의 탑5 좋아요 피드를 가져오는 로직으로 변경 가능
 
-        val pageable = PageRequest.of(0,5)
-        val top5Feeds = feedLikeRepository.findTodayFeeds(day, pageable)
+        val pageable = PageRequest.of(0,10)
+        val top5Feeds = feedLikeRepository.findTodayFeeds(day, pageable).content
 
         return top5Feeds.map{it.toResponseWithoutComment()}
     }

@@ -20,9 +20,11 @@ data class CommentLike(
     val id: Long? = null
 }
 
-fun toggleCommentLike (comment: Comment, user: Users) {
+fun toggleCommentLike (comment: Comment, user: Users): CommentLike {
+    val newLike =
     CommentLike(
         comment = comment,
         user = user
     )
+    return newLike
 }

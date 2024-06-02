@@ -24,9 +24,11 @@ data class FeedLike(
     val id : Long? = null
 }
 
-fun toggleFeedLike (feed: Feed, user: Users) {
+fun toggleFeedLike (feed: Feed, user: Users): FeedLike {
+    val newLike =
     FeedLike(
         feed = feed,
         user = user
     )
+    return newLike
 }

@@ -120,7 +120,7 @@ class FeedService(
     fun getMyFeeds(userId: Long, order : OrderType, page : Int): List<FeedWithoutCommentResponse> {
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
         val pageRequest = PageRequest.of(page,10)
-        val feeds = feedRepository.findByUserOrderByParam(user, order, pageRequest)
+        val feeds = feedRepository.findByUserOrderByParam(user, order, pageRequest).content
         return feeds.map{it.toResponseWithoutComment()}
     }
 
