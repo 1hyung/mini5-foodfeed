@@ -9,6 +9,7 @@ import com.teamsparta.mini5foodfeed.domain.user.dto.request.SignUpRequest
 import com.teamsparta.mini5foodfeed.domain.user.dto.request.UpdateUserProfileRequest
 import com.teamsparta.mini5foodfeed.domain.user.dto.response.UserResponse
 import com.teamsparta.mini5foodfeed.domain.user.exception.UserIdIllegalStateException
+import com.teamsparta.mini5foodfeed.domain.user.exception.UserIdNotFoundException
 import com.teamsparta.mini5foodfeed.domain.user.model.UserRole
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.model.toResponse
@@ -29,7 +30,7 @@ class UserService(
 ) {
 
     fun signUp(request: SignUpRequest): String {
-        if (userRepository.existsByUserName(request.userId)) {
+        if (userRepository.existsByUserId(request.userId)) {
             throw UserIdIllegalStateException(request.userId)
         }
         val user = Users(
@@ -44,6 +45,10 @@ class UserService(
     }
 
     fun logIn(request: LoginRequest): TokenInfo {
+
+        if (!userRepository.existsByUserId(request.userId)) {
+            throw UserIdNotFoundException(request.userId)
+        }
         val authenticationToken = UsernamePasswordAuthenticationToken(request.userId, request.password)
         val authentication = authenticationManagerBuilder.`object`.authenticate(authenticationToken)
         return jwtTokenProvider.createToken(authentication)
