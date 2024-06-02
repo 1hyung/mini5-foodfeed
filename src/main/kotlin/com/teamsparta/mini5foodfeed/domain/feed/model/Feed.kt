@@ -39,14 +39,11 @@ data class Feed(
     @Column(name = "image_url")
     var imageUrl: String,
 
-
-    // 여기서부터는 좋아요 관련 추가해본 필드
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "feed", orphanRemoval = true)
     val feedLike : MutableList<FeedLike>?,
 
     @Column(nullable = false)
     var likedCount : Int = 0
-    // 여기까지
 
 ) {
     @Id

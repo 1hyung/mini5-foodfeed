@@ -25,18 +25,15 @@ data class Users(
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     val comment: MutableList<Comment>? = null,
 
-    //여기는 좋아요 관련 작성해본 필드
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     val commentLike : MutableList<Comment>?,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
     val feedLike: MutableList<FeedLike>?,
-    // 여기까지
 
 ) {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
     val userRole: List<UserRole>? = null
-
 }
 
 fun Users.toResponse(): UserResponse {

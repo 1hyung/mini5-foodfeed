@@ -1,6 +1,7 @@
 package com.teamsparta.mini5foodfeed.domain.like.controller
 
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
+import com.teamsparta.mini5foodfeed.domain.like.dto.LikeResponse
 import com.teamsparta.mini5foodfeed.domain.like.service.LikeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("/feed/{feedId}")
+@RequestMapping("/{feedId}")
 class LikeController(
     private val likeService: LikeService,
 ) {
@@ -20,7 +21,7 @@ class LikeController(
     @PatchMapping("/like")
     fun toggleLikeFeed(
         @PathVariable feedId: Long,
-    ) : ResponseEntity<Unit> {
+    ) : ResponseEntity<LikeResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
             .status(HttpStatus.OK)
@@ -31,7 +32,7 @@ class LikeController(
     fun toggleLikeComment(
         @PathVariable feedId: Long,
         @PathVariable commentId: Long,
-    ) : ResponseEntity<Unit> {
+    ) : ResponseEntity<LikeResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
             .status(HttpStatus.OK)

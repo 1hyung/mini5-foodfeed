@@ -30,13 +30,11 @@ data class Comment(
     @ManyToOne(fetch = FetchType.LAZY)
     val user: Users?,
 
-    //여기서부터는 좋아요 관련해서 작성해본 필드
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "comment", orphanRemoval = true)
     val commentLike : MutableList<CommentLike>?,
 
     @Column(nullable = false)
     var likedCount : Int = 0
-    //여기까지
 )
 
 fun Comment.toResponse(): CommentResponse {
