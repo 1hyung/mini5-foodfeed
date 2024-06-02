@@ -208,9 +208,12 @@ data class CommentLike(
 -------------------------------------------------
 
 
-### 📝API명세서
+### 📝API명세서, ERD
 
-![API 명세서]([https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F0e06600b-6487-460e-ae7b-eb8e9c8926f8%2FUntitled.png?table=block&id=52d5e878-fbe1-4c88-bf18-10d7e6da36b4&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=131562d9-a5ac-40fb-acae-5482c29c5c70&cache=v2](https://blog.kakaocdn.net/dn/bjsOA7/btsHLfHWWfL/s0cI5AXmn22EKl5OPuSXuK/img.jpg))
+![API 명세서](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbjsOA7%2FbtsHLfHWWfL%2Fs0cI5AXmn22EKl5OPuSXuK%2Fimg.jpg)
+
+
+![ERD](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbRd77b%2FbtsHMe9klz9%2FEiOezbSG4ao5tHscMRxK11%2Fimg.png)
 
 --------------------------------------------------
 
