@@ -21,6 +21,6 @@ interface FeedRepository : JpaRepository<Feed, Long> {
     ): Slice<Feed>
 
 
-    @Query("select f from Feed f where :user = Users order by :order desc")
-    fun findByUserOrderByParam(user : Users, order : OrderType, pageable: Pageable) : Page<Feed>
+    @Query("select f from Feed f where :user = f.user order by :order desc")
+    fun findByUserOrderByParam(user : Users, order : OrderType, pageable: Pageable) : List<Feed>
 }
