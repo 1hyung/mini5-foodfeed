@@ -44,6 +44,9 @@ data class Users(
 2. 회원가입 : 
 3. 회원정보수정 :
 4. 내 정보 보기 :
+5. 내 피드 보기 : 자기가 작성한 피드를 모아 볼 수 있습니다. 좋아요 많은순, 최신순을 고를 수 있습니다.
+6. 내 댓글 보기 : 자기가 작성한 댓글을 모아 볼 수 있습니다. 좋아요 많은순, 최신순을 고를 수 있습니다.
+
 #### 피드 부분
 
 ```kotlin
@@ -210,7 +213,7 @@ data class CommentLike(
 
 ### 📝API명세서, ERD
 
-![API 명세서](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbjsOA7%2FbtsHLfHWWfL%2Fs0cI5AXmn22EKl5OPuSXuK%2Fimg.jpg)
+![API 명세서](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbDSDMf%2FbtsHLxO8BVu%2FGkvqoHacntC2WnC6As8TWK%2Fimg.jpg)
 
 
 ![ERD](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbRd77b%2FbtsHMe9klz9%2FEiOezbSG4ao5tHscMRxK11%2Fimg.png)
