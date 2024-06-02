@@ -3,7 +3,6 @@ package com.teamsparta.mini5foodfeed.domain.like.service
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
-import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedWithoutCommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponseWithoutComment

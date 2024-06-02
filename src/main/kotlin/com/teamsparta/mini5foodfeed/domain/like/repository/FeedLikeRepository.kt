@@ -6,8 +6,10 @@ import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
+@Repository
 interface FeedLikeRepository: JpaRepository<FeedLike, Long> {
 
     fun findByFeedAndUser(feed: Feed, user: Users): FeedLike?

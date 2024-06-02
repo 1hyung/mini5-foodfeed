@@ -14,7 +14,6 @@ import com.teamsparta.mini5foodfeed.domain.like.repository.CommentLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
 import jakarta.transaction.Transactional
-import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service

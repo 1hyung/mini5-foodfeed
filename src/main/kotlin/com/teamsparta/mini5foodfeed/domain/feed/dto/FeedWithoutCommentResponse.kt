@@ -1,8 +1,6 @@
 package com.teamsparta.mini5foodfeed.domain.feed.dto
 
-import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import java.time.LocalDateTime
-import javax.swing.border.TitledBorder
 
 data class FeedWithoutCommentResponse(
     val id: Long?,

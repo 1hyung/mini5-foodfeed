@@ -1,14 +1,11 @@
 package com.teamsparta.mini5foodfeed.domain.comment.controller
 
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
-import com.teamsparta.mini5foodfeed.common.status.OrderType
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentRequest
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.comment.service.CommentService
-import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
 
