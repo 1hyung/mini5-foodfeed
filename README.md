@@ -219,7 +219,7 @@ data class CommentLike(
 
 ### ✏️회의기록
 
-![회의 기록](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F83c75a39-3aba-4ba4-a792-7aefe4b07895%2F5d006667-401b-4334-8df3-dca8283bbab4%2F%25ED%259A%258C%25EC%259D%2598_%25EA%25B8%25B0%25EB%25A1%259D.jpg?table=block&id=59d4ed19-db3a-407c-b742-1d8170a98fb3&spaceId=83c75a39-3aba-4ba4-a792-7aefe4b07895&width=2000&userId=131562d9-a5ac-40fb-acae-5482c29c5c70&cache=v2)
+![회의 기록](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F12swM%2FbtsHLGkUOE8%2FukL1FUxIy0iKfeBR2peob1%2Fimg.png)
 
 =================================================================
 
