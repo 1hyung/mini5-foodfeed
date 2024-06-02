@@ -2,11 +2,14 @@ package com.teamsparta.mini5foodfeed.domain.like.service
 
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
+import com.teamsparta.mini5foodfeed.domain.comment.model.toLikeResponse
 import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedWithoutCommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import com.teamsparta.mini5foodfeed.domain.feed.model.toLikeResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.toResponseWithoutComment
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
+import com.teamsparta.mini5foodfeed.domain.like.dto.LikeResponse
 import com.teamsparta.mini5foodfeed.domain.like.model.toggleCommentLike
 import com.teamsparta.mini5foodfeed.domain.like.model.toggleFeedLike
 import com.teamsparta.mini5foodfeed.domain.like.repository.CommentLikeRepository
@@ -29,12 +32,12 @@ class LikeService(
 ) {
 
     @Transactional
-    fun toggleLikeFeed(feedId : Long, userId: Long) : Unit {
+    fun toggleLikeFeed(feedId : Long, userId: Long) : LikeResponse {
         val feed = findFeed(feedId)
         val user: Users = findUser(userId)
 
         val existingLike = feedLikeRepository.findByFeedAndUser(feed, user)
-        return if (existingLike != null) {
+        if (existingLike != null) {
             feedLikeRepository.delete(existingLike)
             feed.likedCount --
             println("disliked")
@@ -43,11 +46,12 @@ class LikeService(
             feed.likedCount ++
             println("liked")
         }
+        return feed.toLikeResponse()
     }
 
 
     @Transactional
-    fun toggleLikeComment(feedId : Long, commentId : Long, userId: Long) : Unit {
+    fun toggleLikeComment(feedId : Long, commentId : Long, userId: Long) : LikeResponse {
         findFeed(feedId)
         val comment = findComment(commentId)
         val user = findUser(userId)
@@ -62,6 +66,7 @@ class LikeService(
             comment.likedCount ++
             println("liked")
         }
+        return comment.toLikeResponse()
     }
 
     fun getTop5LikedFeedIn24Hours(): List<FeedWithoutCommentResponse> {

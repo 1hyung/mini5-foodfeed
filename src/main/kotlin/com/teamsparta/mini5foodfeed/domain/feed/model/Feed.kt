@@ -5,6 +5,7 @@ import com.teamsparta.mini5foodfeed.domain.comment.model.Comment
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.FeedWithoutCommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.dto.TagVo
+import com.teamsparta.mini5foodfeed.domain.like.dto.LikeResponse
 import com.teamsparta.mini5foodfeed.domain.like.model.FeedLike
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import jakarta.persistence.*
@@ -87,4 +88,10 @@ fun Feed.updateTag(tagVo: TagVo){
     this.tag.cool = tagVo.cool
     this.tag.sweetMood = tagVo.sweetMood
     this.tag.dateCourse = tagVo.dateCourse
+}
+
+fun Feed.toLikeResponse(): LikeResponse {
+    return LikeResponse(
+        likedCount = this.likedCount
+    )
 }

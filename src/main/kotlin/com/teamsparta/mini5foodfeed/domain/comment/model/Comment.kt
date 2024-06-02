@@ -2,6 +2,7 @@ package com.teamsparta.mini5foodfeed.domain.comment.model
 
 import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
 import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
+import com.teamsparta.mini5foodfeed.domain.like.dto.LikeResponse
 import com.teamsparta.mini5foodfeed.domain.like.model.CommentLike
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import jakarta.persistence.*
@@ -43,6 +44,12 @@ fun Comment.toResponse(): CommentResponse {
         commentId = this.id,
         contents = this.contents,
         createdAt = this.createdAt,
+        likedCount = this.likedCount,
+    )
+}
+
+fun Comment.toLikeResponse(): LikeResponse {
+    return LikeResponse(
         likedCount = this.likedCount,
     )
 }
