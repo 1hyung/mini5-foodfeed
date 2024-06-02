@@ -21,7 +21,7 @@ class UserController(
 ) {
 
     @PostMapping("/signup")
-    fun signUp(@RequestBody signUpRequest: SignUpRequest): ResponseEntity<BaseResponse<Unit>> {
+    fun signUp(@RequestBody @Valid signUpRequest: SignUpRequest): ResponseEntity<BaseResponse<Unit>> {
         val resultMsg: String = userService.signUp(signUpRequest)
         return ResponseEntity
             .status(HttpStatus.CREATED)
@@ -29,7 +29,7 @@ class UserController(
     }
 
     @PostMapping("/login")
-    fun logIn(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<TokenInfo>> {
+    fun logIn(@RequestBody @Valid loginRequest: LoginRequest): ResponseEntity<BaseResponse<TokenInfo>> {
         val tokenInfo = userService.logIn(loginRequest)
         return ResponseEntity
             .status(HttpStatus.OK)
