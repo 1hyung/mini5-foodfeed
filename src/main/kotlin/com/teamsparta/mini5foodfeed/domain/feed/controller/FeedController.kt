@@ -3,6 +3,8 @@ package com.teamsparta.mini5foodfeed.domain.feed.controller
 import com.teamsparta.mini5foodfeed.common.dto.CustomUser
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
 import com.teamsparta.mini5foodfeed.domain.feed.service.FeedService
+import jakarta.validation.Valid
+import com.teamsparta.mini5foodfeed.domain.like.service.LikeService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
@@ -12,7 +14,8 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/feeds")
 @RestController
 class FeedController(
-    private val feedService: FeedService
+    private val feedService: FeedService,
+    private val likeService: LikeService
 ) {
 
     @GetMapping("/cursor")
@@ -36,9 +39,17 @@ class FeedController(
             .body(feedService.getFeedDetail(feedId))
     }
 
+
+    @GetMapping("/popular")
+    fun getPopularFeeds() : ResponseEntity<List<FeedWithoutCommentResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(likeService.getTop5LikedFeedIn24Hours())
+    }
+
     @PostMapping
     fun createFeed(
-        @RequestBody feedRequest: CreateFeedRequest,
+        @RequestBody @Valid feedRequest: CreateFeedRequest,
     ) : ResponseEntity<FeedResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
@@ -49,7 +60,7 @@ class FeedController(
     @PutMapping("/{feedId}")
     fun updateFeed(
         @PathVariable("feedId") feedId: Long,
-        @RequestBody request: UpdateFeedRequest
+        @RequestBody @Valid request: UpdateFeedRequest
     ) : ResponseEntity<FeedResponse> {
         val userId = (SecurityContextHolder.getContext().authentication.principal as CustomUser).userId
         return ResponseEntity
@@ -67,4 +78,6 @@ class FeedController(
             .status(HttpStatus.NO_CONTENT)
             .build()
     }
+
+
 }
