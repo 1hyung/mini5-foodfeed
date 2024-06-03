@@ -1,1 +1,15 @@
-spring.application.name=mini5-foodfeed
+spring:
+  datasource:
+    url: jdbc:postgresql://aws-0-ap-northeast-2.pooler.supabase.com:5432/postgres
+    username: postgres.odnceheencwzhjcxtpjl
+    password: 2ob2NJAXolKfXRjx
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+jwt:
+  secret: DadFufN4Oui8Bfv3ScFj6R9fyJ9hD45E6AGFsXgFsRhT4YSdSb12
