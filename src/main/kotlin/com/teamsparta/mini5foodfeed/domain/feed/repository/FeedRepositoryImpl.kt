@@ -16,8 +16,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class FeedRepositoryImpl(
-    private val jpaQueryFactory: JPAQueryFactory,
-    private val tagRepository: TagRepository) {
+    private val jpaQueryFactory: JPAQueryFactory) {
 
     fun findAllByTagWithCursor(
         tagVo: TagVo,
@@ -26,6 +25,7 @@ class FeedRepositoryImpl(
     ): Slice<Feed> {
 
         val query = jpaQueryFactory.selectFrom(feed)
+            .leftJoin(feed.tag, tag).fetchJoin()
             .where(
                 cursor?.let { feed.id.gt(it) } ?: feed.id.isNotNull
             )
@@ -41,24 +41,22 @@ class FeedRepositoryImpl(
 
     private fun buildTagConditions(tagVo: TagVo, tag: QTag): BooleanBuilder {
         val booleanBuilder = BooleanBuilder()
-        if (tagVo.sweet) {
-            booleanBuilder.and(tag.sweet.isTrue)
+
+        val conditions = mapOf(
+            tagVo.sweet to tag.sweet,
+            tagVo.hot to tag.hot,
+            tagVo.spicy to tag.spicy,
+            tagVo.cool to tag.cool,
+            tagVo.sweetMood to tag.sweetMood,
+            tagVo.dateCourse to tag.dateCourse
+        )
+
+        conditions.forEach { (condition, path) ->
+            if (condition) {
+                booleanBuilder.and(path.isTrue)
+            }
         }
-        if (tagVo.hot) {
-            booleanBuilder.and(tag.hot.isTrue)
-        }
-        if (tagVo.spicy) {
-            booleanBuilder.and(tag.spicy.isTrue)
-        }
-        if (tagVo.cool) {
-            booleanBuilder.and(tag.cool.isTrue)
-        }
-        if (tagVo.sweetMood) {
-            booleanBuilder.and(tag.sweetMood.isTrue)
-        }
-        if (tagVo.dateCourse) {
-            booleanBuilder.and(tag.dateCourse.isTrue)
-        }
+
         return booleanBuilder
     }
 }
