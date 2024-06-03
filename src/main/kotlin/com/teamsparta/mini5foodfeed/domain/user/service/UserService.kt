@@ -36,6 +36,8 @@ class UserService(
             userId = request.userId,
             userName = request.userName,
             password = request.password,
+            commentLike = null,
+            feedLike = null
         )
         userRepository.save(user)
         val userRole: UserRole = UserRole(null, ROLE.USER, user)
