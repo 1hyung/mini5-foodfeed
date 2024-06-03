@@ -7,5 +7,6 @@ data class UpdateFeedRequest(
     val title: String,
     @field:Size(min = 1 , max = 2000, message = "본문은 1 ~ 2000 자 이내여야 합니다")
     val description: String,
-    val tagVo: TagVo
+    val tagVo: TagVo,
+    val imageUrl: String,
 )

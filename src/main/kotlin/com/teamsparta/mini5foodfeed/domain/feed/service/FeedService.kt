@@ -1,23 +1,19 @@
 package com.teamsparta.mini5foodfeed.domain.feed.service
 
-import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
-import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
-import com.teamsparta.mini5foodfeed.domain.feed.model.Feed
-import com.teamsparta.mini5foodfeed.domain.feed.model.Tag
-import com.teamsparta.mini5foodfeed.domain.feed.model.toResponse
-import com.teamsparta.mini5foodfeed.domain.feed.model.updateTag
-import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 
 import com.teamsparta.mini5foodfeed.common.exception.ModelNotFoundException
 import com.teamsparta.mini5foodfeed.common.exception.NotAuthenticationException
+import com.teamsparta.mini5foodfeed.common.status.OrderType
+import com.teamsparta.mini5foodfeed.domain.comment.dto.CommentResponse
+import com.teamsparta.mini5foodfeed.domain.comment.repository.CommentRepository
 import com.teamsparta.mini5foodfeed.domain.feed.dto.*
+import com.teamsparta.mini5foodfeed.domain.feed.model.*
+import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepository
 import com.teamsparta.mini5foodfeed.domain.feed.repository.FeedRepositoryImpl
-
 import com.teamsparta.mini5foodfeed.domain.feed.repository.TagRepository
+import com.teamsparta.mini5foodfeed.domain.like.repository.FeedLikeRepository
 import com.teamsparta.mini5foodfeed.domain.user.model.Users
 import com.teamsparta.mini5foodfeed.domain.user.repository.UserRepository
-
-
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Slice
 import org.springframework.data.domain.Sort
@@ -33,6 +29,7 @@ class FeedService(
     private val commentRepository: CommentRepository,
     private val tagRepository: TagRepository,
     private val userRepository: UserRepository,
+    private val feedLikeRepository: FeedLikeRepository,
 ) {
 
     fun getFeedList(
@@ -42,15 +39,13 @@ class FeedService(
         val pageable = PageRequest.of(0,20, Sort.Direction.DESC, "createdAt")
         val feedSlice : Slice<Feed>  = feedRepositoryImpl.findAllByTagWithCursor(tagVo, cursor, pageable)
         val nextCursor = if (feedSlice.hasNext()) feedSlice.nextPageable().pageNumber else null
-        val pageRequest = PageRequest.of(0,5)
+        val limit = 3
 
         val feedResponseWithComments = feedSlice.content.map{ feed ->
-            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,pageRequest)
-                .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt)}
+            val comments = commentRepository.findTop5ByFeedIdOrderByCreatedAtDesc(feed.id,limit)
+                .map { comment -> CommentResponse(comment.id, comment.contents, comment.createdAt, likedCount = feed.likedCount)}
             feed.toResponse().copy(comments = comments)
         }
-
-
         return CursorPageResponse(feedResponseWithComments, nextCursor)
     }
 
@@ -82,7 +77,9 @@ class FeedService(
                 comments = null,
                 user = user,
                 tag =tag,
-                imageUrl = feedRequest.imageUrl
+                imageUrl = feedRequest.imageUrl,
+                feedLike = null,
+                likedCount = 0
             )
         )
         feed.tag.feed = feed
@@ -98,6 +95,7 @@ class FeedService(
         val (title, description) = request
             feed.title = title
             feed.description = description
+        feed.imageUrl = request.imageUrl
         feed.updateTag(request.tagVo)
 
         return feed.toResponse()
@@ -111,5 +109,17 @@ class FeedService(
         feedRepository.delete(feed)
         val comments = commentRepository.findByFeedId(feedId)
         commentRepository.deleteAll(comments)
+        val feedLike = feedLikeRepository.findByFeed(feed)
+        if (feedLike != null) {
+            feedLikeRepository.deleteAll(feedLike)
+        }
     }
+
+    fun getMyFeeds(userId: Long, order : OrderType, page : Int): List<FeedWithoutCommentResponse> {
+        val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("user", userId)
+        val pageRequest = PageRequest.of(page,10)
+        val feeds = feedRepository.findByUserOrderByParam(user, order, pageRequest)
+        return feeds.map{it.toResponseWithoutComment()}
+    }
+
 }
