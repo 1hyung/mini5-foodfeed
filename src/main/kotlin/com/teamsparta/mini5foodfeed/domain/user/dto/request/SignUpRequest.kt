@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Size
 
 data class SignUpRequest(
 
-    @field:Size(min = 8, max = 15, message = "userId 는 5 ~ 20 이내여야 합니다")
+    @field:Size(min = 8, max = 15, message = "userId 는 8 ~ 15 이내여야 합니다")
     val userId: String,
 
 
