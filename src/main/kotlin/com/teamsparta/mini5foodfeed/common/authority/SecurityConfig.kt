@@ -1,6 +1,7 @@
 package com.teamsparta.mini5foodfeed.common.authority
 
-import io.swagger.v3.oas.models.PathItem
+import com.teamsparta.mini5foodfeed.common.exception.CustomAccessDeniedHandler
+import com.teamsparta.mini5foodfeed.common.exception.CustomAuthenticationEntryPoint
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -15,7 +16,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val jwtTokenProvider: JwtTokenProvider
+    private val jwtTokenProvider: JwtTokenProvider,
+    private val customAuthenticationEntryPoint: CustomAuthenticationEntryPoint,
+    private val customAccessDeniedHandler: CustomAccessDeniedHandler
 ) {
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
@@ -31,6 +34,10 @@ class SecurityConfig(
                     .requestMatchers(HttpMethod.GET).permitAll()
                     .requestMatchers(HttpMethod.GET, "users/info").hasRole("USER")
                     .anyRequest().hasRole("USER")
+            }
+            .exceptionHandling {
+                it.authenticationEntryPoint(customAuthenticationEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler)
             }
             .addFilterBefore(
                 JwtAuthenticationFilter(jwtTokenProvider),
